@@ -53,21 +53,22 @@
 
     <h1>Admin Paneli - Haber Ekle</h1>
     
-    <form id="haber-form">
-        <label for="title">Haber Başlığı:</label>
-        <input type="text" id="title" required>
+<form id="haber-form" method="POST" action="haber-ekle.php">
+    <label for="title">Haber Başlığı:</label>
+    <input type="text" id="title" name="title" required>
 
-        <label for="content">Haber İçeriği:</label>
-        <textarea id="content" required></textarea>
+    <label for="content">Haber İçeriği:</label>
+    <textarea id="content" name="content" required></textarea>
 
-        <label for="image">Haber Görseli (URL):</label>
-        <input type="file" id="image" required>
+    <label for="image">Haber Görseli (URL):</label>
+    <input type="text" id="image" name="image" required>
 
-        <label for="link">Haber Linki:</label>
-        <input type="text" id="link" required>
+    <label for="link">Haber Linki:</label>
+    <input type="text" id="link" name="link" required>
 
-        <button type="submit">Haber Ekle</button>
-    </form>
+    <button type="submit">Haber Ekle</button>
+</form>
+
 
     <script>
         document.getElementById('haber-form').addEventListener('submit', function(event) {

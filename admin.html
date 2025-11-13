@@ -93,7 +93,29 @@
             alert('Haber başarıyla eklendi!');
         });
     </script>
-    <script src="js/haberForm.js"></script>
+<section class="haber-listesi" id="haber-listesi">
+    <!-- Haberler burada görünecek -->
+</section>
+
+<script>
+    fetch('haberler.json')
+    .then(response => response.json())
+    .then(data => {
+        const haberListesi = document.getElementById('haber-listesi');
+        data.forEach(haber => {
+            const haberElement = document.createElement('article');
+            haberElement.classList.add('haber');
+            haberElement.innerHTML = `
+                <img src="${haber.image}" alt="${haber.title}">
+                <h3>${haber.title}</h3>
+                <p>${haber.content}</p>
+                <a href="${haber.link}">Haberi Oku</a>
+            `;
+            haberListesi.appendChild(haberElement);
+        });
+    });
+</script>
+
 
 </body>
 </html>

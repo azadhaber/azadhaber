@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diyarbakır Son Gelimeler – Azad Haber</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Temel Stil */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    /* Üst Menü */
+.ust-bar {
+    background-color: #2d2d2d;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    }
+
+.logo h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #e63946;
+    }
+
+.logo p {
+    font-size: 12px;
+    margin: 0;
+    color: #ccc;
+    }
+
+.menu a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+    }
+
+.menu a.aktif {
+    color: #e63946;
+    }
+
+    /* Son Dakika Bar */
+.son-dakika {
+    background-color: #e63946;
+    color: white;
+    padding: 8px 20px;
+    font-weight: bold;
+    }
+
+.son-dakika .etiket {
+    margin-right: 8px;
+    }
+
+    /* Haber Detay */
+    .icerik {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+      background-color: #fff;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .haber-detay h2 {
+      font-size: 28px;
+      margin-top: 20px;
+      color: #222;
+    }
+
+    .haber-tarih {
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .haber-gorsel {
+      width: 100%;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+
+    .haber-detay p {
+      line-height: 1.8;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .geri {
+      display: inline-block;
+      padding: 8px 15px;
+      background-color: #e60000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 3px;
+      margin-bottom: 20px;
+    }
+
+    /* Footer */
+    .alt-bilgi {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .ust-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .ust-bar .menu a {
+        margin: 5px 0 0 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Üst Menü -->
+  <header class="ust-bar">
+    <div class="logo">
+      <h1>AZAD</h1>
+      <p>Özgür Haberin Adresi</p>
+    </div>
+    <nav class="menu">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../haber.html" class="aktif">Haberler</a>
+      <a href="../iletisim.html">İletişim</a>
+    </nav>
+  </header>
+
+    <!-- Son Dakika Barı -->
+    <div class="son-dakika">
+        <span class="etiket">SON DAKİKA:</span>
+        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
+    </div>
+
+  <!-- Haber İçeriği -->
+  <main class="icerik">
+    <article class="haber-detay">
+      <h2>DEM Parti'den dikkat çeken "Selçuk Mızraklı" açıklaması</h2>
+      <p class="haber-tarih">13 Kasım 2025 – Görüntülenme: <span id="goruntulenme">0</span></p>
+      <img src="../img/haber1.jpg" alt="Rojin’in haberi" class="haber-gorsel">
+      <p>
+        DEM Parti, 2019'dan bu yana tutuklu bulunan eski Diyarbakır Büyükşehir Belediye Başkanı Adnan Selçuk Mızraklı ile ilgili açıklama yaptı. Açıklamada, "Mızraklı'nın denetimli serbestliğin uygulanarak tahliye olma talebi, Cezaevi İdare ve Gözlem Kurulu tarafından, 'Kurumumuzda bulunduğu süre içerisinde terör örgütünden ayrıldığına dair bir beyanı bulunmadı' denilerek reddedildi." ifadelerine yer verildi.
+
+"Silahlı terör örgütüne üye olmak" suçlamasıyla görevinden uzaklaştırıldıktan sonra Ekim 2019'da tutuklanan eski Diyarbakır Büyükşehir Belediye Eşbaşkanı Adnan Selçuk Mızraklı ile ilgili DEM Parti'den açıklama geldi.
+</p>
+<p>DEM PARTİ: SELÇUK MIZRAKLI'NIN TAHLİYESİ CEZAEVİ YÖNETİMİ TARAFINDAN REDDEDİLDİ
+
+Açıklamada, Mızraklı'nın tahliye olmama sebebi ile ilgili cezaevi yönetimi tarafından engellendiği denildi. Açıklamada şu ifadelere yer verildi:
+"Önceki dönem Diyarbakır Büyükşehir Belediye Eşbaşkanımız Adnan Selçuk Mızraklı'nın, denetimli serbestliğin uygulanarak tahliye olma talebi, Cezaevi İdare ve Gözlem Kurulu tarafından, 'Kurumumuzda bulunduğu süre içerisinde terör örgütünden ayrıldığına dair bir beyanı bulunmadı' denilerek reddedildi.
+
+Selçuk Mızraklı'nın siyasi görüşü bellidir: Barış ve demokrasi için mücadele eden ve yıllarca bunun bedelini rehin tutularak ödeyen bir siyasetçidir. Mızraklı'nın beyanının ne olması gerektiğine bu kurul kesinlikle karar veremez!
+
+Keyfi ve hukuksuz bir şekilde verilen bu ret gerekçesini kabul etmiyoruz. İdeolojik saiklerle hareket eden bu kurul, yetkilerini aşarak siyasi tutsakları keyfi ve intikamcı bir şekilde cezaevinde tutmaya devam etmektedir.
+
+Barış ve Demokratik Toplum Sürecini adeta sabote etmeye çalışan bu kurulun kendisini ve aldığı kararı hukuk ve demokrasi açısından gayri meşru olarak ilan ediyoruz. Selçuk Mızraklı ve tüm siyasi tutsaklar derhal özgürlüklerine kavuşmalıdır."
+</p>
+<p>SELÇUK MIZRAKLI'YA VERİLEN HAPİS CEZASI
+
+Selçuk Mızraklı, Diyarbakır Büyükşehir Belediye Başkanlığı görevinden 19 Ağustos 2019 tarihinde İçişleri Bakanlığı kararıyla uzaklaştırıldıktan bir süre sonra, 22 Ekim 2019 tarihinde gözaltına alınmış ve çıkarıldığı mahkemece tutuklanmıştır.
+
+HDP'li eski Diyarbakır Büyükşehir Belediye Başkanı Selçuk Mızraklı'ya verilen ceza, "silahlı terör örgütüne üye olmak" suçlamasıyla 9 yıl 4 ay 15 gün hapis cezasıdır.
+
+Bu ceza ilk olarak 9 Mart 2020 tarihinde verilmiş, daha sonra Yargıtay tarafından usulden bozulmuş, yeniden yapılan yargılamada (29 Kasım 2023) tekrar aynı ceza verilmiş ve bu karar son olarak Yargıtay tarafından onanmıştır (Ekim 2024).
+      </p>
+      <a href="../index.html" class="geri">← Ana Sayfaya Dön</a>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="alt-bilgi">
+    <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
+  </footer>
+
+  <!-- Son Dakika JS -->
+  <script>
+    const haberler = [
+      "Diyarbakır’da kültürel etkinlikler artıyor...",
+      "Ekonomi: Yeni teşvik paketi açıklandı.",
+      "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
+      "Diyarbakırspor galibiyetle sezona başladı!",
+      "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
+    ];
+
+    let index = 0;
+    const yaziAlani = document.getElementById("son-dakika-yazi");
+
+    setInterval(() => {
+      index = (index + 1) % haberler.length;
+      yaziAlani.textContent = haberler[index];
+    }, 10000);
+  </script>
+
+<script>
+function sayaciGoster(haberID, elementID) {
+    let key = "haberGoruntulenme_" + haberID; // benzersiz anahtar
+    let sayac = localStorage.getItem(key) || 0;
+    sayac++;
+    localStorage.setItem(key, sayac);
+    document.getElementById(elementID).textContent = sayac;
+}
+
+// Haber ID'leri ile çağır
+sayaciGoster(1, "goruntulenme");
+</script>
+
+</body>
+</html>

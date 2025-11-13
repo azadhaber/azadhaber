@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azad Haber | Güncel, Politika, Spor ve Daha Fazlası</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Üst Menü -->
+    <header class="ust-bar">
+        <div class="logo">
+            <h1>AZAD</h1>
+            <p>Özgür Haberin Adresi</p>
+        </div>
+        <nav class="menu">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="haber.html" class="aktif">Haberler</a>
+            <a href="iletisim.html">İletişim</a>
+        </nav>
+    </header>
+
+    <!-- SON DAKİKA BAR -->
+    <div class="son-dakika">
+        <span class="etiket">SON DAKİKA:</span>
+        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
+    </div>
+
+    <!-- İçerik -->
+    <main class="icerik">
+        <!-- GÜNCEL -->
+        <section class="haber-kategori" id="guncel">
+            <h2>🕓 Güncel</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/haber3.jpg" alt="Haber Görseli">
+                    <h3>Rojin'in Vücudundaki 2 DNA'nın Bulaş Olmadığı Kesinleşti</h3>
+                    <p>Diyarbakır’da adli tıp incelemesi sonucunda Rojin’in vücudundaki DNA örneklerinin bulaş olmadığı kesinleşti...</p>
+                    <a href="haber/rojinin_vucudundaki_2_dnanin_bulas_olmadigi_kesinlesti_-1.html">Haberi Oku</a>
+                </article>
+                <article class="haber">
+                    <img src="img/haber1.jpg" alt="Haber Görseli">
+                    <h3>DEM Parti'den dikkat çeken "Selçuk Mızraklı" açıklaması</h3>
+                    <p>DEM Parti, 2019'dan bu yana tutuklu bulunan eski Diyarbakır Büyükşehir Belediye Eşbaşkanı Adnan Selçuk Mızraklı ile ilgili açıklama yaptı. Açıklamada, "Mızraklı'nın denetimli serbestliğin uygulanarak tahliye olma talebi, Cezaevi İdare ve Gözlem Kurulu tarafından, 'Kurumumuzda bulunduğu süre içerisinde terör örgütünden ayrıldığına dair bir beyanı bulunmadı' denilerek reddedildi." ifadelerine yer verildi.</p>
+                    <a href="haber/diyarbakir_son_gelismeler.html">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- POLİTİKA -->
+        <section class="haber-kategori" id="politika">
+            <h2>🏛️ Politika</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/politika1.jpg" alt="Politika Haberi">
+                    <h3>Yeni Anayasa Görüşmeleri Başladı</h3>
+                    <p>Meclis’te uzun süredir beklenen yeni anayasa görüşmeleri komisyon aşamasına geçti.</p>
+                    <a href="#">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- EKONOMİ -->
+        <section class="haber-kategori" id="ekonomi">
+            <h2>💰 Ekonomi</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/haber2.jpg" alt="Ekonomi Haberi">
+                    <h3>Yeni Teşvik Paketi Açıklandı</h3>
+                    <p>Ekonomi Bakanlığı tarafından açıklanan yeni teşvik paketi bölge ekonomisine ivme kazandıracak.</p>
+                    <a href="#">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- SPOR -->
+        <section class="haber-kategori" id="spor">
+            <h2>⚽ Spor</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/haber4.jpg" alt="Spor Haberi">
+                    <h3>Diyarbakırspor Sezona Galibiyetle Başladı</h3>
+                    <p>Diyarbakırspor sezonun ilk maçında rakibini 3-1 mağlup etti, taraftarlar büyük sevinç yaşadı.</p>
+                    <a href="#">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Alt Bilgi -->
+    <footer class="alt-bilgi">
+        <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
+    </footer>
+
+    <!-- JS: Son Dakika + Koruma -->
+    <script>
+        const haberler = [
+            "Diyarbakır’da kültürel etkinlikler artıyor...",
+            "Ekonomi: Yeni teşvik paketi açıklandı.",
+            "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
+            "Diyarbakırspor galibiyetle sezona başladı!",
+            "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
+        ];
+
+        let index = 0;
+        const yaziAlani = document.getElementById("son-dakika-yazi");
+
+        setInterval(() => {
+            index = (index + 1) % haberler.length;
+            yaziAlani.textContent = haberler[index];
+        }, 10000);
+
+    </script>
+
+</body>
+</html>

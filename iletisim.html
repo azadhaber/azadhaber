@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azad Haber | İletişim</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Üst Menü -->
+    <header class="ust-bar">
+        <div class="logo">
+            <h1>AZAD</h1>
+            <p>Özgür Haberin Adresi</p>
+        </div>
+        <nav class="menu">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="haber.html">Haberler</a>
+            <a href="iletisim.html" class="aktif">İletişim</a>
+        </nav>
+    </header>
+
+    <!-- Son Dakika Barı (Opsiyonel, iletişim sayfasında da kullanılabilir) -->
+    <div class="son-dakika">
+        <span class="etiket">SON DAKİKA:</span>
+        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
+    </div>
+
+    <!-- İçerik -->
+    <main class="icerik">
+        <section class="iletisim-kategori">
+            <h2>📬 Bizimle İletişime Geçin</h2>
+            <p>Her türlü öneri, soru ve görüşleriniz için aşağıdaki formu doldurabilirsiniz. En kısa sürede size geri dönüş yapacağız.</p>
+
+            <!-- İletişim Formu -->
+            <form class="iletisim-formu" action="#" method="post">
+                <label for="isim">Adınız Soyadınız</label>
+                <input type="text" id="isim" name="isim" placeholder="Adınızı girin" required>
+
+                <label for="email">E-posta Adresiniz</label>
+                <input type="email" id="email" name="email" placeholder="E-posta adresinizi girin" required>
+
+                <label for="konu">Konu</label>
+                <input type="text" id="konu" name="konu" placeholder="Konu başlığı" required>
+
+                <label for="mesaj">Mesajınız</label>
+                <textarea id="mesaj" name="mesaj" rows="6" placeholder="Mesajınızı yazın..." required></textarea>
+
+                <button type="submit">Gönder</button>
+            </form>
+
+            <!-- İletişim Bilgileri -->
+            <div class="iletisim-bilgileri">
+                <h3>İletişim</h3>
+                <p>📧 info@azadhaber.com</p>
+                <p>📞 +90 123 456 78 90</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Alt Bilgi -->
+    <footer class="alt-bilgi">
+        <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
+    </footer>
+
+    <!-- JS: Son Dakika -->
+    <script>
+        const haberler = [
+            "Diyarbakır’da kültürel etkinlikler artıyor...",
+            "Ekonomi: Yeni teşvik paketi açıklandı.",
+            "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
+            "Diyarbakırspor galibiyetle sezona başladı!",
+            "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
+        ];
+
+        let index = 0;
+        const yaziAlani = document.getElementById("son-dakika-yazi");
+
+        setInterval(() => {
+            index = (index + 1) % haberler.length;
+            yaziAlani.textContent = haberler[index];
+        }, 10000);
+    </script>
+
+</body>
+</html>

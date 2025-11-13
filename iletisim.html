@@ -83,26 +83,7 @@
             yaziAlani.textContent = haberler[index];
         }, 10000);
     </script>
-    <script>
-    fetch('haberler.json')
-    .then(response => response.json())
-    .then(data => {
-        let haberlerDiv = document.querySelector('.haber-listesi');
-        
-        data.forEach(haber => {
-            let haberElement = document.createElement('article');
-            haberElement.classList.add('haber');
-            haberElement.innerHTML = `
-                <img src="${haber.image}" alt="${haber.title}">
-                <h3>${haber.title}</h3>
-                <p>${haber.content}</p>
-                <a href="${haber.link}">Haberi Oku</a>
-            `;
-            haberlerDiv.appendChild(haberElement);
-        });
-    });
-</script>
-
+    
 
 </body>
 </html>

@@ -8,7 +8,7 @@
 <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
 <link rel="stylesheet" href="style.css">
 <style>
-/* Senin verdiğin CSS kodlarını buraya ekle */
+/* Genel CSS */
 body { margin:0; font-family:Arial,sans-serif; background-color:#f4f4f4; color:#333; }
 a { text-decoration:none; color:inherit; }
 .ust-bar{background-color:#2d2d2d;color:white;display:flex;justify-content:space-between;align-items:center;padding:15px 40px;}
@@ -43,10 +43,10 @@ a { text-decoration:none; color:inherit; }
     </nav>
 </header>
 
-    <div class="son-dakika">
-        <span class="etiket">SON DAKİKA:</span>
-        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
-    </div>
+<div class="son-dakika">
+    <span class="etiket">SON DAKİKA:</span>
+    <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
+</div>
 
 <main class="icerik">
     <section class="haber-listesi" id="haberlerContainer">
@@ -63,7 +63,7 @@ a { text-decoration:none; color:inherit; }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-// Firebase ayarlarını buraya ekle
+// Firebase ayarları
 const firebaseConfig = {
   apiKey: "API_KEYİNİZ",
   authDomain: "azadhaber1.firebaseapp.com",
@@ -73,24 +73,33 @@ const firebaseConfig = {
   messagingSenderId: "307978936562",
   appId: "1:307978936562:web:7eb007183210681d306b"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// Slug oluşturma fonksiyonu
 function slugify(text){
-    return text.toString().toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'').replace(/\-\-+/g,'-').replace(/^-+/,'').replace(/-+$/,'');
+    return text.toString().toLowerCase()
+        .replace(/\s+/g,'-')
+        .replace(/[^\w\-]+/g,'')
+        .replace(/\-\-+/g,'-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
 }
 
 const container = document.getElementById("haberlerContainer");
 const kategoriler = ["guncel","politika","ekonomi","spor"];
-
 let sonDakikaHaberler = [];
 
+// Firebase'den tüm kategoriler için haberleri çek
 kategoriler.forEach(cat=>{
     const newsRef = ref(db,"haberler/"+cat);
     onValue(newsRef, snapshot=>{
         snapshot.forEach(child=>{
             const h = child.val();
             const slug = h.slug || slugify(h.title);
+
+            // Haber kartı oluştur
             const article = document.createElement("article");
             article.className = "haber";
             article.innerHTML = `
@@ -100,27 +109,22 @@ kategoriler.forEach(cat=>{
                 <a href="haber/${slug}.html">Haberi Oku</a>
             `;
             container.appendChild(article);
+
             sonDakikaHaberler.push(h.title);
         });
-
-        // Son dakika yazısını güncelle
-        const haberler = [
-            "Diyarbakır’da kültürel etkinlikler artıyor...",
-            "Ekonomi: Yeni teşvik paketi açıklandı.",
-            "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
-            "Diyarbakırspor galibiyetle sezona başladı!",
-            "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
-        ];
-
-        let index = 0;
-        const yaziAlani = document.getElementById("son-dakika-yazi");
-
-        setInterval(() => {
-            index = (index + 1) % haberler.length;
-            yaziAlani.textContent = haberler[index];
-        }, 10000);
     });
 });
+
+// Son dakika yazısı animasyonu
+let index = 0;
+const yaziAlani = document.getElementById("son-dakika-yazi");
+
+setInterval(() => {
+    if(sonDakikaHaberler.length > 0){
+        index = (index + 1) % sonDakikaHaberler.length;
+        yaziAlani.textContent = sonDakikaHaberler[index];
+    }
+}, 10000);
 </script>
 
 </body>

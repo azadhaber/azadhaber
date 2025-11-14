@@ -6,27 +6,20 @@
 <title>Azad Haber | Admin Paneli</title>
 <link rel="stylesheet" href="style.css">
 <style>
-/* Genel */
-body { background: #f4f4f4; font-family: Arial, sans-serif; margin:0; }
-.ust-bar { background: #2d2d2d; color: white; display:flex; justify-content:space-between; align-items:center; padding:15px 40px;}
-.logo h1 { color:#e63946; margin:0; font-size:24px; }
-.logo p { color:#ccc; margin:0; font-size:12px; }
+body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; }
+.ust-bar { background:#2d2d2d; color:white; display:flex; justify-content:space-between; align-items:center; padding:15px 40px; }
+.logo h1 { color:#e63946; margin:0; }
 .menu a { color:white; margin-left:15px; text-decoration:none; font-weight:bold; }
-.menu a.aktif { color:#e63946; }
-
 .admin-container { max-width:1200px; margin:20px auto; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.section { background:white; border-radius:6px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.section { background:white; border-radius:6px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
 .section h2 { margin-top:0; }
-
 input, textarea, button { width:100%; padding:10px; margin-bottom:10px; border-radius:4px; border:1px solid #ccc; }
 button { background:#e63946; color:white; border:none; cursor:pointer; }
-
-.comment { border-bottom:1px solid #eee; padding:8px 0; display:flex; justify-content:space-between; align-items:center; }
-.comment button { background:#b92d36; padding:5px 10px; font-size:12px; }
-
-.haber-list { max-height:400px; overflow-y:auto; }
-.haber-item { border-bottom:1px solid #eee; padding:8px; display:flex; justify-content:space-between; align-items:center; }
-.haber-item button { background:#b92d36; padding:5px 8px; font-size:12px; }
+.comment, .news-item { border-bottom:1px solid #eee; padding:8px 0; display:flex; justify-content:space-between; align-items:center; }
+.comment button, .news-item button { background:#b92d36; padding:5px 10px; font-size:12px; cursor:pointer; }
+.news-item h3 { margin:0; font-size:16px; }
+.news-item img { max-width:80px; max-height:50px; margin-right:10px; object-fit:cover; }
+.news-item-container { max-height:400px; overflow-y:auto; }
 </style>
 </head>
 <body>
@@ -37,7 +30,7 @@ button { background:#e63946; color:white; border:none; cursor:pointer; }
         <p>Admin Paneli</p>
     </div>
     <nav class="menu">
-        <a href="../index.html" target="_blank">Siteye Git</a>
+        <a href="index.html">Siteye Git</a>
     </nav>
 </header>
 
@@ -46,122 +39,93 @@ button { background:#e63946; color:white; border:none; cursor:pointer; }
     <!-- Haber Ekleme -->
     <div class="section">
         <h2>Yeni Haber Ekle</h2>
-        <form id="newsForm" action="haber_ekle.php" method="POST" target="_blank">
-            <input type="text" name="title" id="newsTitle" placeholder="Haber Başlığı" required>
-            <textarea name="content" id="newsContent" placeholder="Haber İçeriği" required></textarea>
-            <input type="text" name="image" id="newsImage" placeholder="Resim URL'si" required>
-            <button type="submit">Haber Ekle</button>
-        </form>
+        <input type="text" id="newsTitle" placeholder="Haber Başlığı">
+        <textarea id="newsContent" placeholder="Haber İçeriği"></textarea>
+        <input type="text" id="newsImage" placeholder="Resim URL'si">
+        <button id="addNewsBtn">Haber Ekle</button>
         <div id="newsStatus" style="color:green;"></div>
     </div>
 
-    <!-- Yorum Yönetimi -->
+    <!-- Haberleri Yönet -->
     <div class="section">
-        <h2>Yorumları Yönet</h2>
-        <div id="adminComments"></div>
-    </div>
-
-    <!-- Mevcut Haberler -->
-    <div class="section">
-        <h2>Mevcut Haberler</h2>
-        <div class="haber-list" id="haberList"></div>
+        <h2>Haberleri Yönet</h2>
+        <div class="news-item-container" id="newsList"></div>
     </div>
 
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { getDatabase, ref, push, onValue, set, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
 // Firebase ayarları
 const firebaseConfig = {
-apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-authDomain: "azadhaber1.firebaseapp.com",
-databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-projectId: "azadhaber1",
-storageBucket: "azadhaber1.firebasestorage.app",
-messagingSenderId: "307978936562",
-appId: "1:307978936562:web:7eb007183210681d306b",
-measurementId: "G-MX88RBRPBR"
+    apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
+    authDomain: "azadhaber1.firebaseapp.com",
+    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+    projectId: "azadhaber1",
+    storageBucket: "azadhaber1.firebasestorage.app",
+    messagingSenderId: "307978936562",
+    appId: "1:307978936562:web:7eb007183210681d306b",
+    measurementId: "G-MX88RBRPBR"
 };
+
+// Firebase başlat
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Firebase & PHP ile haber ekleme
-const newsForm = document.getElementById("newsForm");
+// Haber ekleme
+const newsTitle = document.getElementById("newsTitle");
+const newsContent = document.getElementById("newsContent");
+const newsImage = document.getElementById("newsImage");
+const addNewsBtn = document.getElementById("addNewsBtn");
 const newsStatus = document.getElementById("newsStatus");
 
-newsForm.addEventListener("submit", (e)=>{
-    e.preventDefault();
-
-    const title = document.getElementById("newsTitle").value.trim();
-    const content = document.getElementById("newsContent").value.trim();
-    const image = document.getElementById("newsImage").value.trim();
-
+addNewsBtn.addEventListener("click", ()=>{
+    const title = newsTitle.value.trim();
+    const content = newsContent.value.trim();
+    const image = newsImage.value.trim();
     if(title === "" || content === "" || image === ""){
         alert("Tüm alanlar doldurulmalıdır!");
         return;
     }
-
-    // Firebase'e ekle
     const newsRef = ref(db, "haberler");
     push(newsRef, { title, content, image });
-
-    // PHP formunu submit et
-    newsForm.submit();
-
-    newsStatus.textContent = "Haber Firebase ve sunucuya başarıyla eklendi!";
-    newsForm.reset();
+    newsStatus.textContent = "Haber başarıyla eklendi!";
+    newsTitle.value = "";
+    newsContent.value = "";
+    newsImage.value = "";
 });
 
-// Yorumları listeleme ve silme
-const adminComments = document.getElementById("adminComments");
-const commentRef = ref(db, "comments"); // Tüm yorumlar
+// Haberleri listele ve sil
+const newsList = document.getElementById("newsList");
+const newsRef = ref(db, "haberler");
 
-onValue(commentRef, snapshot=>{
-    adminComments.innerHTML = "";
-    snapshot.forEach(haberSnap=>{
-        haberSnap.forEach(child=>{
-            const comment = child.val();
-            const div = document.createElement("div");
-            div.className = "comment";
-            div.innerHTML = `<span><strong>${comment.name}:</strong> ${comment.text}</span>
-                            <button onclick="deleteComment('${haberSnap.key}','${child.key}')">Sil</button>`;
-            adminComments.appendChild(div);
-        });
+onValue(newsRef, snapshot => {
+    newsList.innerHTML = "";
+    snapshot.forEach(child => {
+        const news = child.val();
+        const div = document.createElement("div");
+        div.className = "news-item";
+        div.innerHTML = `
+            <div style="display:flex; align-items:center;">
+                <img src="${news.image}" alt="${news.title}" />
+                <h3>${news.title}</h3>
+            </div>
+            <div>
+                <button onclick="deleteNews('${child.key}')">Sil</button>
+            </div>
+        `;
+        newsList.appendChild(div);
     });
 });
 
-window.deleteComment = function(haberKey, key){
-    if(confirm("Bu yorumu silmek istediğinize emin misiniz?")){
-        const commentRefToDelete = ref(db, "comments/" + haberKey + "/" + key);
-        set(commentRefToDelete, null);
+window.deleteNews = function(key){
+    if(confirm("Bu haberi silmek istediğinize emin misiniz?")){
+        const newsRefToDelete = ref(db, "haberler/" + key);
+        remove(newsRefToDelete);
     }
 };
-
-// Mevcut haberleri listeleme (sunucudan)
-async function loadHaberler(){
-    const res = await fetch('haber/haberler.json'); // sunucuda haberler.json oluşturacağız
-    const data = await res.json();
-    const list = document.getElementById("haberList");
-    list.innerHTML = "";
-    data.forEach(h=>{
-        const div = document.createElement("div");
-        div.className = "haber-item";
-        div.innerHTML = `<a href="haber/${h.file}" target="_blank">${h.title}</a>
-                         <button onclick="deleteHaber('${h.file}')">Sil</button>`;
-        list.appendChild(div);
-    });
-}
-
-window.deleteHaber = async function(file){
-    if(confirm("Bu haberi silmek istediğinize emin misiniz?")){
-        await fetch('haber_sil.php?file=' + file);
-        loadHaberler();
-    }
-}
-
-loadHaberler();
 </script>
 
 </body>

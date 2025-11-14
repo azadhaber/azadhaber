@@ -43,12 +43,10 @@ a { text-decoration:none; color:inherit; }
     </nav>
 </header>
 
-<div class="son-dakika">
-    <span class="etiket">SON DAKİKA:</span>
-    <div class="kaydirici">
-        <span id="son-dakika-yazi">Haberler yükleniyor...</span>
+    <div class="son-dakika">
+        <span class="etiket">SON DAKİKA:</span>
+        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
     </div>
-</div>
 
 <main class="icerik">
     <section class="haber-listesi" id="haberlerContainer">
@@ -106,13 +104,20 @@ kategoriler.forEach(cat=>{
         });
 
         // Son dakika yazısını güncelle
+        const haberler = [
+            "Diyarbakır’da kültürel etkinlikler artıyor...",
+            "Ekonomi: Yeni teşvik paketi açıklandı.",
+            "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
+            "Diyarbakırspor galibiyetle sezona başladı!",
+            "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
+        ];
+
         let index = 0;
         const yaziAlani = document.getElementById("son-dakika-yazi");
+
         setInterval(() => {
-            if(sonDakikaHaberler.length>0){
-                index = (index + 1) % sonDakikaHaberler.length;
-                yaziAlani.textContent = sonDakikaHaberler[index];
-            }
+            index = (index + 1) % haberler.length;
+            yaziAlani.textContent = haberler[index];
         }, 10000);
     });
 });

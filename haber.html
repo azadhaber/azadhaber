@@ -1,253 +1,124 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Azad Haber | Haberler</title>
-  <link rel="icon" type="image/png" href="img/favicon.png">
-  <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Genel Ayarlar */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-
-    /* Linkler */
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* Üst Menü */
-    .ust-bar {
-      background-color: #2d2d2d;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-    }
-
-    .logo h1 {
-      margin: 0;
-      font-size: 28px;
-      color: #e63946;
-    }
-
-    .logo p {
-      font-size: 12px;
-      margin: 0;
-      color: #ccc;
-    }
-
-    .menu a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .menu a.aktif {
-      color: #e63946;
-    }
-
-    /* Son Dakika Barı */
-    .son-dakika {
-      background-color: #e63946;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      padding: 8px 20px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .son-dakika .etiket {
-      margin-right: 15px;
-      font-weight: bold;
-    }
-
-    /* Ana Haber / Manşet */
-    .ana-haber {
-      background-color: #fff;
-      margin: 20px auto;
-      max-width: 1200px;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      padding-bottom: 20px;
-    }
-
-    .ana-haber img {
-      width: 100%;
-      max-height: 450px;
-      object-fit: cover;
-    }
-
-    .ana-haber h2 {
-      font-size: 28px;
-      margin: 20px 0 10px;
-    }
-
-    .ana-haber p {
-      font-size: 16px;
-      margin: 0 20px 15px;
-      line-height: 1.6;
-    }
-
-    .ana-haber a {
-      display: inline-block;
-      background-color: #e63946;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-
-    .ana-haber a:hover {
-      background-color: #b92d36;
-    }
-
-    /* Haber Listesi */
-    .haber-listesi {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
-      margin: 20px auto 40px;
-    }
-
-    .haber {
-      background-color: #fff;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-
-    .haber:hover {
-      transform: translateY(-5px);
-    }
-
-    .haber img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .haber h3 {
-      margin: 15px;
-      font-size: 18px;
-      color: #222;
-    }
-
-    .haber p {
-      margin: 0 15px 10px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .haber a {
-      display: inline-block;
-      margin: 0 15px 15px;
-      padding: 8px 12px;
-      background-color: #e63946;
-      color: #fff;
-      border-radius: 3px;
-      transition: background-color 0.3s;
-    }
-
-    .haber a:hover {
-      background-color: #b92d36;
-    }
-
-    /* Alt Bilgi */
-    .alt-bilgi {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px 0;
-      font-size: 14px;
-    }
-
-    /* Responsive */
-    @media (max-width:768px) {
-      .ana-haber h2 { font-size: 24px; }
-      .ana-haber p { font-size: 14px; margin: 0 15px 10px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azad Haber | Güncel, Politika, Spor ve Daha Fazlası</title>
+    <link rel="icon" type="img/png" href="img/favicon.png">
+    <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Üst Menü -->
-<header class="ust-bar">
-  <div class="logo">
-    <img src="img/logo.png" alt="Logo">
-  </div>
-  <nav class="menu">
-    <ul>
-      <li><a href="index.html">Ana Sayfa</a></li>
-      <li><a href="haber.html" class="aktif">Haberler</a></li>
-      <li><a href="iletisim.html">İletişim</a></li>
-    </ul>
-  </nav>
-</header>
+    <!-- Üst Menü -->
+    <header class="ust-bar">
+        <div class="logo">
+<img src="img/logo.png" alt="Logo">
+        </div>
+        <nav class="menu">
+            <ul>
+            <li><a href="index.html">Ana Sayfa</a></li>
+            <li><a href="haber.html" class="aktif">Haberler</a></li>
+            <li><a href="iletisim.html">İletişim</a></li>
+            
+        </nav>
+    </header>
 
-<!-- Son Dakika Barı -->
-<div class="son-dakika">
-  <span class="etiket">SON DAKİKA:</span>
-  <div class="kaydirici">
-    <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
-  </div>
-</div>
+    <!-- SON DAKİKA BAR -->
+    <div class="son-dakika">
+        <span class="etiket">SON DAKİKA:</span>
+        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
+    </div>
 
-<!-- Ana İçerik -->
-<main class="icerik">
-  <!-- Manşet Haber -->
-  <section class="ana-haber">
-    <img src="img/haber1.jpg" alt="Diyarbakır Son Gelişmeler">
-    <h2>DEM Parti'den dikkat çeken "Selçuk Mızraklı" açıklaması</h2>
-    <p>
-      DEM Parti, 2019'dan bu yana tutuklu bulunan eski Diyarbakır Büyükşehir Belediye Eşbaşkanı Adnan Selçuk Mızraklı ile ilgili açıklama yaptı. Açıklamada, "Mızraklı'nın denetimli serbestliğin uygulanarak tahliye olma talebi, Cezaevi İdare ve Gözlem Kurulu tarafından, 'Kurumumuzda bulunduğu süre içerisinde terör örgütünden ayrıldığına dair bir beyanı bulunmadı' denilerek reddedildi." ifadelerine yer verildi.
-    </p>
-    <a href="haber/diyarbakir_son_gelismeler.html">Haberi Oku</a>
-  </section>
+    <!-- İçerik -->
+    <main class="icerik">
+        <!-- GÜNCEL -->
+        <section class="haber-kategori" id="guncel">
+            <h2>🕓 Güncel</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/haber3.jpg" alt="Haber Görseli">
+                    <h3>Rojin'in Vücudundaki 2 DNA'nın Bulaş Olmadığı Kesinleşti</h3>
+                    <p>Diyarbakır’da adli tıp incelemesi sonucunda Rojin’in vücudundaki DNA örneklerinin bulaş olmadığı kesinleşti...</p>
+                    <a href="haber/rojinin_vucudundaki_2_dnanin_bulas_olmadigi_kesinlesti_-1.html">Haberi Oku</a>
+                </article>
+                <article class="haber">
+                    <img src="img/haber1.jpg" alt="Haber Görseli">
+                    <h3>DEM Parti'den dikkat çeken "Selçuk Mızraklı" açıklaması</h3>
+                    <p>DEM Parti, 2019'dan bu yana tutuklu bulunan eski Diyarbakır Büyükşehir Belediye Eşbaşkanı Adnan Selçuk Mızraklı ile ilgili açıklama yaptı. Açıklamada, "Mızraklı'nın denetimli serbestliğin uygulanarak tahliye olma talebi, Cezaevi İdare ve Gözlem Kurulu tarafından, 'Kurumumuzda bulunduğu süre içerisinde terör örgütünden ayrıldığına dair bir beyanı bulunmadı' denilerek reddedildi." ifadelerine yer verildi.</p>
+                    <a href="haber/diyarbakir_son_gelismeler.html">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
 
-  <!-- Haber Listesi -->
-  <section class="haber-listesi">
-    <!-- Dinamik haberler buraya gelecek -->
-  </section>
-</main>
+        <!-- POLİTİKA -->
+        <section class="haber-kategori" id="politika">
+            <h2>🏛️ Politika</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/politika1.jpg" alt="Politika Haberi">
+                    <h3>Yeni Anayasa Görüşmeleri Başladı</h3>
+                    <p>Meclis’te uzun süredir beklenen yeni anayasa görüşmeleri komisyon aşamasına geçti.</p>
+                    <a href="#">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
 
-<!-- Alt Bilgi -->
-<footer class="alt-bilgi">
-  <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
-  <p><a href="hakkimizda.html">Hakkımızda</a></p>
-</footer>
+        <!-- EKONOMİ -->
+        <section class="haber-kategori" id="ekonomi">
+            <h2>💰 Ekonomi</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/haber2.jpg" alt="Ekonomi Haberi">
+                    <h3>Yeni Teşvik Paketi Açıklandı</h3>
+                    <p>Ekonomi Bakanlığı tarafından açıklanan yeni teşvik paketi bölge ekonomisine ivme kazandıracak.</p>
+                    <a href="#">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
 
-<!-- JS: Son Dakika -->
-<script>
-  const haberler = [
-    "Diyarbakır’da kültürel etkinlikler artıyor...",
-    "Ekonomi: Yeni teşvik paketi açıklandı.",
-    "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
-    "Diyarbakırspor galibiyetle sezona başladı!",
-    "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
-  ];
+        <!-- SPOR -->
+        <section class="haber-kategori" id="spor">
+            <h2>⚽ Spor</h2>
+            <div class="haber-grid">
+                <article class="haber">
+                    <img src="img/haber4.jpg" alt="Spor Haberi">
+                    <h3>Diyarbakırspor Sezona Galibiyetle Başladı</h3>
+                    <p>Diyarbakırspor sezonun ilk maçında rakibini 3-1 mağlup etti, taraftarlar büyük sevinç yaşadı.</p>
+                    <a href="#">Haberi Oku</a>
+                </article>
+            </div>
+        </section>
+    </main>
 
-  let index = 0;
-  const yaziAlani = document.getElementById("son-dakika-yazi");
+    <!-- Alt Bilgi -->
+    <footer class="alt-bilgi">
+        <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
+    <p><a href="hakkımızda.html">Hakkımızda</a></p>
+    </footer>
 
-  setInterval(() => {
-    index = (index + 1) % haberler.length;
-    yaziAlani.textContent = haberler[index];
-  }, 10000);
-</script>
+    <!-- JS: Son Dakika + Koruma -->
+    <script>
+        const haberler = [
+            "Diyarbakır’da kültürel etkinlikler artıyor...",
+            "Ekonomi: Yeni teşvik paketi açıklandı.",
+            "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
+            "Diyarbakırspor galibiyetle sezona başladı!",
+            "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
+        ];
+
+        let index = 0;
+        const yaziAlani = document.getElementById("son-dakika-yazi");
+
+        setInterval(() => {
+            index = (index + 1) % haberler.length;
+            yaziAlani.textContent = haberler[index];
+        }, 10000);
+
+    </script>
 
 </body>
 </html>
+
+
+

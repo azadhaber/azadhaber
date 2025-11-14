@@ -244,14 +244,9 @@ function addComment() {
 
 
 <script type="module">
-  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
     authDomain: "azadhaber1.firebaseapp.com",
@@ -263,11 +258,10 @@ function addComment() {
     measurementId: "G-MX88RBRPBR"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const db = getDatabase(app);
 
-    const commentRef = ref(db, "comments"); // yorumları kaydettiğimiz yer
+  const commentRef = ref(db, "comments");
 
   // Yorum gönder
   window.addComment = function () {
@@ -277,14 +271,14 @@ function addComment() {
 
     push(commentRef, text);
     document.getElementById("commentInput").value = "";
-  }
+  };
 
   // Yorumları canlı olarak çek
   onValue(commentRef, (snapshot) => {
     const list = document.getElementById("commentList");
     list.innerHTML = "<h3>Yorumlar</h3>";
 
-    snapshot.forEach(child => {
+    snapshot.forEach((child) => {
       const div = document.createElement("div");
       div.className = "single-comment";
       div.innerHTML = `<p>${child.val()}</p>`;
@@ -292,6 +286,7 @@ function addComment() {
     });
   });
 </script>
+
 
 </body>
 </html>

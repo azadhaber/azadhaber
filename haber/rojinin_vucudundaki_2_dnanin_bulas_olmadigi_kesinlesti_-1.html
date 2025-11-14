@@ -220,18 +220,7 @@ function sayaciGoster(haberID, elementID) {
 sayaciGoster(2, "goruntulenme2");
 
 
-// Sayfa açılınca yorumları yükle
-window.onload = function() {
-  let comments = JSON.parse(localStorage.getItem("comments")) || [];
-  const list = document.getElementById("commentList");
 
-  comments.forEach(c => {
-    const div = document.createElement("div");
-    div.className = "single-comment";
-    div.innerHTML = `<p>${c}</p>`;
-    list.appendChild(div);
-  });
-}
 
 function addComment() {
   const input = document.getElementById("commentInput");
@@ -249,13 +238,7 @@ function addComment() {
   div.innerHTML = `<p>${text}</p>`;
   commentList.appendChild(div);
 
-  // localStorage’a kaydet
-  let comments = JSON.parse(localStorage.getItem("comments")) || [];
-  comments.push(text);
-  localStorage.setItem("comments", JSON.stringify(comments));
 
-  input.value = "";
-}
 </script>
 
 

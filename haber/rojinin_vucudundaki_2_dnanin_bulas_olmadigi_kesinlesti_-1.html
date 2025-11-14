@@ -180,6 +180,7 @@
 
 
 
+
   <!-- Footer -->
   <footer class="alt-bilgi">
     <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
@@ -257,29 +258,50 @@ function addComment() {
 }
 </script>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+<script>
+// Firebase importları
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyANGE81QXc_vo9Iq-OlGRt0cCvmijMW074",
-    authDomain: "azadhaber-3c472.firebaseapp.com",
-    projectId: "azadhaber-3c472",
-    storageBucket: "azadhaber-3c472.firebasestorage.app",
-    messagingSenderId: "303831574642",
-    appId: "1:303831574642:web:bc5443ef91c0176f9d3aeb",
-    measurementId: "G-GWW250D5D9"
+    apiKey: "SENİN_API_KEY",
+    authDomain: "SENIN_SITE.firebaseapp.com",
+    databaseURL: "https://SENIN_SITE-default-rtdb.firebaseio.com",
+    projectId: "SENIN_SITE",
+    storageBucket: "SENIN_SITE.appspot.com",
+    messagingSenderId: "XXX",
+    appId: "XXX"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+  const db = getDatabase(app);
+
+  const commentRef = ref(db, "comments"); // yorumları kaydettiğimiz yer
+
+  // Yorum gönder
+  window.addComment = function () {
+    const text = document.getElementById("commentInput").value.trim();
+
+    if (text === "") return;
+
+    push(commentRef, text);
+    document.getElementById("commentInput").value = "";
+  }
+
+  // Yorumları canlı olarak çek
+  onValue(commentRef, (snapshot) => {
+    const list = document.getElementById("commentList");
+    list.innerHTML = "<h3>Yorumlar</h3>";
+
+    snapshot.forEach(child => {
+      const div = document.createElement("div");
+      div.className = "single-comment";
+      div.innerHTML = `<p>${child.val()}</p>`;
+      list.appendChild(div);
+    });
+  });
+  
+  </script>
 
 
 </body>

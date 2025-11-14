@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haber Detayı</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main id="haberDetay"></main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "API_KEYİNİZ",
+  authDomain: "azadhaber1.firebaseapp.com",
+  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+  projectId: "azadhaber1",
+  storageBucket: "azadhaber1.appspot.com",
+  messagingSenderId: "307978936562",
+  appId: "1:307978936562:web:7eb007183210681d306b"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+function getSlug() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("slug");
+}
+const slug = getSlug();
+const main = document.getElementById("haberDetay");
+
+const kategoriler = ["guncel","politika","ekonomi","spor"];
+let bulundu = false;
+
+kategoriler.forEach(cat=>{
+    const newsRef = ref(db,"haberler/"+cat);
+    onValue(newsRef, snapshot=>{
+        snapshot.forEach(child=>{
+            const h = child.val();
+            if(h.slug === slug){
+                main.innerHTML = `
+                    <h1>${h.title}</h1>
+                    <img src="${h.image}" alt="Haber Görseli">
+                    <p>${h.content}</p>
+                    <a href="../index.html">Ana Sayfaya Dön</a>
+                `;
+                bulundu = true;
+            }
+        });
+        if(!bulundu){ main.innerHTML = "<p>Haber bulunamadı!</p>"; }
+    });
+});
+</script>
+</body>
+</html>

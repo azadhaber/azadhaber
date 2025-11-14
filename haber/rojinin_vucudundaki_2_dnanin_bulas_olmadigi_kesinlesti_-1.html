@@ -18,6 +18,7 @@ body { font-family: Arial; margin:0; background:#f8f8f8; color:#333;}
 .comment-box textarea{width:100%;min-height:80px;padding:10px;border-radius:3px;border:1px solid #ccc;margin-bottom:10px;}
 .comment-box button{padding:8px 15px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
 .single-comment{border-bottom:1px solid #eee;padding:8px 0;}
+.single-comment button{margin-left:10px;padding:3px 6px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
 .alt-bilgi{background:#333;color:white;text-align:center;padding:15px 0;margin-top:20px;}
 </style>
 </head>
@@ -93,43 +94,70 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // Sayfa için unique key
-const pageKey = "haber2"; // manuel key, path karmaşasından kurtarır
+const pageKey = "haber2"; 
 
 // ------------------
 // 1) Görüntüleme sayacı
 // ------------------
 const viewRef = ref(db, "views/" + pageKey);
 get(viewRef).then(snapshot=>{
-let count = snapshot.exists() ? snapshot.val() : 0;
-count++;
-set(viewRef,count);
-document.getElementById("goruntulenme2").textContent=count;
+  let count = snapshot.exists() ? snapshot.val() : 0;
+  count++;
+  set(viewRef,count);
+  document.getElementById("goruntulenme2").textContent=count;
 });
 
 // ------------------
-// 2) Yorumlar
+// 2) Yorumlar ve kullanıcı
 // ------------------
+
+// Kullanıcı ID oluştur
+let userID = localStorage.getItem("userID");
+if(!userID){
+  userID = "user_" + Date.now();
+  localStorage.setItem("userID", userID);
+}
+
+// Yönetici kontrolü (örnek: adminID)
+const adminID = "admin_12345"; // bunu değiştir, yönetici için sabit ID
+
 const commentRef = ref(db, "comments/" + pageKey);
 const commentList = document.getElementById("commentList");
 const commentBtn = document.getElementById("commentBtn");
 const commentInput = document.getElementById("commentInput");
 
+// Yorum ekleme
 commentBtn.addEventListener("click", ()=>{
-let text = commentInput.value.trim();
-if(text===""){alert("Yorum boş olamaz!"); return;}
-push(commentRef, text);
-commentInput.value="";
+  let text = commentInput.value.trim();
+  if(text===""){alert("Yorum boş olamaz!"); return;}
+  push(commentRef, { text: text, userID: userID });
+  commentInput.value="";
 });
 
+// Yorumları çek ve listele
 onValue(commentRef, snapshot=>{
-commentList.innerHTML="<h3>Yorumlar</h3>";
-snapshot.forEach(child=>{
-let div=document.createElement("div");
-div.className="single-comment";
-div.innerHTML=`<p>${child.val()}</p>`;
-commentList.appendChild(div);
+  commentList.innerHTML="<h3>Yorumlar</h3>";
+  snapshot.forEach(child=>{
+    const comment = child.val();
+    let div = document.createElement("div");
+    div.className="single-comment";
+
+    // Sil butonu: yalnızca yorum sahibi veya admin görebilir
+    let silBtn = "";
+    if(comment.userID === userID || userID === adminID){
+      silBtn = `<button onclick="deleteComment('${child.key}')">Sil</button>`;
+    }
+
+    div.innerHTML=`<p>${comment.text}</p> ${silBtn}`;
+    commentList.appendChild(div);
+  });
 });
-});
+
+// Yorum silme fonksiyonu
+window.deleteComment = function(key){
+  const commentRefToDelete = ref(db, "comments/" + pageKey + "/" + key);
+  set(commentRefToDelete, null);
+};
 </script>
 
 </body>

@@ -257,6 +257,30 @@ function addComment() {
 }
 </script>
 
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyANGE81QXc_vo9Iq-OlGRt0cCvmijMW074",
+    authDomain: "azadhaber-3c472.firebaseapp.com",
+    projectId: "azadhaber-3c472",
+    storageBucket: "azadhaber-3c472.firebasestorage.app",
+    messagingSenderId: "303831574642",
+    appId: "1:303831574642:web:bc5443ef91c0176f9d3aeb",
+    measurementId: "G-GWW250D5D9"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
 
 </body>
 </html>

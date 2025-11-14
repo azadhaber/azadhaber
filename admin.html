@@ -6,20 +6,27 @@
 <title>Azad Haber | Admin Paneli</title>
 <link rel="stylesheet" href="style.css">
 <style>
-/* Admin Paneli Özel */
-body { background: #f4f4f4; font-family: Arial, sans-serif; }
+/* Genel */
+body { background: #f4f4f4; font-family: Arial, sans-serif; margin:0; }
 .ust-bar { background: #2d2d2d; color: white; display:flex; justify-content:space-between; align-items:center; padding:15px 40px;}
 .logo h1 { color:#e63946; margin:0; font-size:24px; }
 .logo p { color:#ccc; margin:0; font-size:12px; }
 .menu a { color:white; margin-left:15px; text-decoration:none; font-weight:bold; }
 .menu a.aktif { color:#e63946; }
-.admin-container { max-width:1200px; margin:20px auto; display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+
+.admin-container { max-width:1200px; margin:20px auto; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
 .section { background:white; border-radius:6px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
 .section h2 { margin-top:0; }
+
 input, textarea, button { width:100%; padding:10px; margin-bottom:10px; border-radius:4px; border:1px solid #ccc; }
 button { background:#e63946; color:white; border:none; cursor:pointer; }
+
 .comment { border-bottom:1px solid #eee; padding:8px 0; display:flex; justify-content:space-between; align-items:center; }
 .comment button { background:#b92d36; padding:5px 10px; font-size:12px; }
+
+.haber-list { max-height:400px; overflow-y:auto; }
+.haber-item { border-bottom:1px solid #eee; padding:8px; display:flex; justify-content:space-between; align-items:center; }
+.haber-item button { background:#b92d36; padding:5px 8px; font-size:12px; }
 </style>
 </head>
 <body>
@@ -30,7 +37,7 @@ button { background:#e63946; color:white; border:none; cursor:pointer; }
         <p>Admin Paneli</p>
     </div>
     <nav class="menu">
-        <a href="index.html">Siteye Git</a>
+        <a href="../index.html" target="_blank">Siteye Git</a>
     </nav>
 </header>
 
@@ -39,10 +46,12 @@ button { background:#e63946; color:white; border:none; cursor:pointer; }
     <!-- Haber Ekleme -->
     <div class="section">
         <h2>Yeni Haber Ekle</h2>
-        <input type="text" id="newsTitle" placeholder="Haber Başlığı">
-        <textarea id="newsContent" placeholder="Haber İçeriği"></textarea>
-        <input type="text" id="newsImage" placeholder="Resim URL'si">
-        <button id="addNewsBtn">Haber Ekle</button>
+        <form id="newsForm" action="haber_ekle.php" method="POST" target="_blank">
+            <input type="text" name="title" id="newsTitle" placeholder="Haber Başlığı" required>
+            <textarea name="content" id="newsContent" placeholder="Haber İçeriği" required></textarea>
+            <input type="text" name="image" id="newsImage" placeholder="Resim URL'si" required>
+            <button type="submit">Haber Ekle</button>
+        </form>
         <div id="newsStatus" style="color:green;"></div>
     </div>
 
@@ -52,12 +61,19 @@ button { background:#e63946; color:white; border:none; cursor:pointer; }
         <div id="adminComments"></div>
     </div>
 
+    <!-- Mevcut Haberler -->
+    <div class="section">
+        <h2>Mevcut Haberler</h2>
+        <div class="haber-list" id="haberList"></div>
+    </div>
+
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
+// Firebase ayarları
 const firebaseConfig = {
 apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
 authDomain: "azadhaber1.firebaseapp.com",
@@ -68,55 +84,84 @@ messagingSenderId: "307978936562",
 appId: "1:307978936562:web:7eb007183210681d306b",
 measurementId: "G-MX88RBRPBR"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Haber Ekle
-const newsTitle = document.getElementById("newsTitle");
-const newsContent = document.getElementById("newsContent");
-const newsImage = document.getElementById("newsImage");
-const addNewsBtn = document.getElementById("addNewsBtn");
+// Firebase & PHP ile haber ekleme
+const newsForm = document.getElementById("newsForm");
 const newsStatus = document.getElementById("newsStatus");
 
-addNewsBtn.addEventListener("click", ()=>{
-    const title = newsTitle.value.trim();
-    const content = newsContent.value.trim();
-    const image = newsImage.value.trim();
+newsForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    const title = document.getElementById("newsTitle").value.trim();
+    const content = document.getElementById("newsContent").value.trim();
+    const image = document.getElementById("newsImage").value.trim();
+
     if(title === "" || content === "" || image === ""){
         alert("Tüm alanlar doldurulmalıdır!");
         return;
     }
+
+    // Firebase'e ekle
     const newsRef = ref(db, "haberler");
     push(newsRef, { title, content, image });
-    newsStatus.textContent = "Haber başarıyla eklendi!";
-    newsTitle.value = "";
-    newsContent.value = "";
-    newsImage.value = "";
+
+    // PHP formunu submit et
+    newsForm.submit();
+
+    newsStatus.textContent = "Haber Firebase ve sunucuya başarıyla eklendi!";
+    newsForm.reset();
 });
 
-// Yorumları Listele ve Sil
+// Yorumları listeleme ve silme
 const adminComments = document.getElementById("adminComments");
-const commentRef = ref(db, "comments/haber2"); // Haber ID'sine göre değiştir
+const commentRef = ref(db, "comments"); // Tüm yorumlar
 
 onValue(commentRef, snapshot=>{
     adminComments.innerHTML = "";
-    snapshot.forEach(child=>{
-        const comment = child.val();
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `<span><strong>${comment.name}:</strong> ${comment.text}</span>
-                        <button onclick="deleteComment('${child.key}')">Sil</button>`;
-        adminComments.appendChild(div);
+    snapshot.forEach(haberSnap=>{
+        haberSnap.forEach(child=>{
+            const comment = child.val();
+            const div = document.createElement("div");
+            div.className = "comment";
+            div.innerHTML = `<span><strong>${comment.name}:</strong> ${comment.text}</span>
+                            <button onclick="deleteComment('${haberSnap.key}','${child.key}')">Sil</button>`;
+            adminComments.appendChild(div);
+        });
     });
 });
 
-window.deleteComment = function(key){
+window.deleteComment = function(haberKey, key){
     if(confirm("Bu yorumu silmek istediğinize emin misiniz?")){
-        const commentRefToDelete = ref(db, "comments/haber2/" + key);
+        const commentRefToDelete = ref(db, "comments/" + haberKey + "/" + key);
         set(commentRefToDelete, null);
     }
 };
+
+// Mevcut haberleri listeleme (sunucudan)
+async function loadHaberler(){
+    const res = await fetch('haber/haberler.json'); // sunucuda haberler.json oluşturacağız
+    const data = await res.json();
+    const list = document.getElementById("haberList");
+    list.innerHTML = "";
+    data.forEach(h=>{
+        const div = document.createElement("div");
+        div.className = "haber-item";
+        div.innerHTML = `<a href="haber/${h.file}" target="_blank">${h.title}</a>
+                         <button onclick="deleteHaber('${h.file}')">Sil</button>`;
+        list.appendChild(div);
+    });
+}
+
+window.deleteHaber = async function(file){
+    if(confirm("Bu haberi silmek istediğinize emin misiniz?")){
+        await fetch('haber_sil.php?file=' + file);
+        loadHaberler();
+    }
+}
+
+loadHaberler();
 </script>
 
 </body>

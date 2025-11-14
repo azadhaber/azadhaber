@@ -1,126 +1,66 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Azad Haber | Haberler</title>
-<link rel="icon" type="image/png" href="img/favicon.png">
-<meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
-<link rel="stylesheet" href="style.css">
-<style>
-body { margin:0; font-family:Arial,sans-serif; background-color:#f4f4f4; color:#333; }
-a { text-decoration:none; color:inherit; }
-.ust-bar{background-color:#2d2d2d;color:white;display:flex;justify-content:space-between;align-items:center;padding:15px 40px;}
-.logo h1{margin:0;font-size:28px;color:#e63946;}
-.menu a{color:white;margin:0 15px;text-decoration:none;font-weight:bold;}
-.menu a.aktif{color:#e63946;}
-.son-dakika{background-color:#e63946;color:#fff;display:flex;align-items:center;padding:8px 20px;overflow:hidden;position:relative;}
-.son-dakika .etiket{margin-right:15px;font-weight:bold;}
-.haber-listesi{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1200px;margin:20px auto 40px;}
-.haber{background-color:#fff;border-radius:6px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,0.1);transition:transform 0.2s;}
-.haber:hover{transform:translateY(-5px);}
-.haber img{width:100%;height:180px;object-fit:cover;}
-.haber h3{margin:15px;font-size:18px;color:#222;}
-.haber p{margin:0 15px 10px;font-size:14px;color:#555;}
-.haber a{display:inline-block;margin:0 15px 15px;padding:8px 12px;background-color:#e63946;color:#fff;border-radius:3px;transition:background-color 0.3s;}
-.haber a:hover{background-color:#b92d36;}
-.alt-bilgi{background-color:#333;color:#fff;text-align:center;padding:20px 0;font-size:14px;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azad Haber | Haberler</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header class="ust-bar">
-    <div class="logo">
-        <img src="img/logo.png" alt="Logo">
-    </div>
-    <nav class="menu">
-        <ul>
-        <li><a href="index.html">Ana Sayfa</a></li>
-        <li><a href="haber.html" class="aktif">Haberler</a></li>
-        <li><a href="iletisim.html">İletişim</a></li>
-        </ul>
+  <header>
+    <h1>Haberler</h1>
+    <nav>
+      <ul>
+        <li><a href="?category=guncel">Güncel</a></li>
+        <li><a href="?category=politika">Politika</a></li>
+        <li><a href="?category=ekonomi">Ekonomi</a></li>
+        <li><a href="?category=spor">Spor</a></li>
+      </ul>
     </nav>
-</header>
+  </header>
 
-<div class="son-dakika">
-    <span class="etiket">SON DAKİKA:</span>
-    <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
-</div>
+  <main id="haberlerListesi">
+    <!-- Firebase'den gelen haberler burada görünecek -->
+  </main>
 
-<main class="icerik">
-    <section class="haber-listesi" id="haberlerContainer">
-        <!-- Haberler Firebase’den buraya eklenecek -->
-    </section>
-</main>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-<footer class="alt-bilgi">
-    <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
-    <p><a href="hakkımızda.html">Hakkımızda</a></p>
-</footer>
+    const firebaseConfig = {
+      apiKey: "API_KEYİNİZ",
+      authDomain: "azadhaber1.firebaseapp.com",
+      databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+      projectId: "azadhaber1",
+      storageBucket: "azadhaber1.appspot.com",
+      messagingSenderId: "307978936562",
+      appId: "1:307978936562:web:7eb007183210681d306b"
+    };
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const haberlerListesi = document.getElementById("haberlerListesi");
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-  authDomain: "azadhaber1.firebaseapp.com",
-  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-  projectId: "azadhaber1",
-  storageBucket: "azadhaber1.appspot.com",
-  messagingSenderId: "307978936562",
-  appId: "1:307978936562:web:7eb007183210681d306b"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+    // URL parametresine göre kategori seçimi
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("category");
 
-function slugify(text){
-    return text.toString().toLowerCase()
-        .replace(/\s+/g,'-')
-        .replace(/[^\w\-]+/g,'')
-        .replace(/\-\-+/g,'-')
-        .replace(/^-+/,'')
-        .replace(/-+$/,'');
-}
-
-const container = document.getElementById("haberlerContainer");
-const kategoriler = ["guncel","politika","ekonomi","spor"];
-let sonDakikaHaberler = [];
-
-// Tüm kategorilerden haberleri çek
-kategoriler.forEach(cat => {
-    const newsRef = ref(db, "haberler/" + cat);
+    const newsRef = ref(db, "haberler/" + category);
     onValue(newsRef, snapshot => {
-        snapshot.forEach(child => {
-            const h = child.val();
-            const slug = h.slug ? h.slug : slugify(h.title);
+      haberlerListesi.innerHTML = "";  // Her kategoride güncel listeyi temizle
 
-            const article = document.createElement("article");
-            article.className = "haber";
-            article.innerHTML = `
-                <img src="${h.image}" alt="${h.title}">
-                <h3>${h.title}</h3>
-                <p>${h.content.substring(0,100)}...</p>
-                <a href="./haber/${slug}.html">Haberi Oku</a>
-            `;
-            container.appendChild(article);
-
-            sonDakikaHaberler.push(h.title);
-        });
+      snapshot.forEach(child => {
+        const h = child.val();
+        const haberItem = document.createElement("div");
+        haberItem.classList.add("haber-item");
+        haberItem.innerHTML = `
+          <h4>${h.title}</h4>
+          <p>${h.content}</p>
+          <img src="${h.image}" alt="Haber Görseli" style="width: 100%; max-height: 300px;">
+        `;
+        haberlerListesi.appendChild(haberItem);
+      });
     });
-});
-
-// Son dakika yazısı
-let index = 0;
-const yaziAlani = document.getElementById("son-dakika-yazi");
-
-setInterval(() => {
-    if(sonDakikaHaberler.length > 0){
-        index = (index + 1) % sonDakikaHaberler.length;
-        yaziAlani.textContent = sonDakikaHaberler[index];
-    }
-}, 10000);
-</script>
-
+  </script>
 </body>
 </html>

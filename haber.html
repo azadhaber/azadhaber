@@ -4,179 +4,249 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Azad Haber | Haberler</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
   <link rel="stylesheet" href="style.css">
   <style>
+    /* Genel Ayarlar */
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
     }
-    
-    header {
+
+    /* Linkler */
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Üst Menü */
+    .ust-bar {
       background-color: #2d2d2d;
       color: white;
-      padding: 20px;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
     }
 
-    header h1 {
-      font-size: 36px;
+    .logo h1 {
       margin: 0;
-    }
-
-    nav {
-      margin-top: 15px;
-      text-align: center;
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    nav ul li {
-      display: inline;
-      margin: 0 15px;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    nav ul li a:hover {
+      font-size: 28px;
       color: #e63946;
     }
 
-    main {
-      max-width: 1200px;
-      margin: 30px auto;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    .logo p {
+      font-size: 12px;
+      margin: 0;
+      color: #ccc;
     }
 
-    .haber-item {
-      background-color: #fff;
-      margin-bottom: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease;
-    }
-
-    .haber-item:hover {
-      transform: translateY(-5px);
-    }
-
-    .haber-item h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .haber-item img {
-      width: 100%;
-      height: auto;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 5px;
-      margin-bottom: 15px;
-    }
-
-    .haber-item p {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #555;
-      margin-bottom: 15px;
-    }
-
-    .haber-item .read-more {
-      display: inline-block;
-      padding: 8px 15px;
-      background-color: #e63946;
+    .menu a {
       color: white;
+      margin: 0 15px;
       text-decoration: none;
-      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .menu a.aktif {
+      color: #e63946;
+    }
+
+    /* Son Dakika Barı */
+    .son-dakika {
+      background-color: #e63946;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 8px 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .son-dakika .etiket {
+      margin-right: 15px;
+      font-weight: bold;
+    }
+
+    /* Ana Haber / Manşet */
+    .ana-haber {
+      background-color: #fff;
+      margin: 20px auto;
+      max-width: 1200px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    .ana-haber img {
+      width: 100%;
+      max-height: 450px;
+      object-fit: cover;
+    }
+
+    .ana-haber h2 {
+      font-size: 28px;
+      margin: 20px 0 10px;
+    }
+
+    .ana-haber p {
+      font-size: 16px;
+      margin: 0 20px 15px;
+      line-height: 1.6;
+    }
+
+    .ana-haber a {
+      display: inline-block;
+      background-color: #e63946;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 4px;
       transition: background-color 0.3s;
     }
 
-    .haber-item .read-more:hover {
-      background-color: #d32f2f;
+    .ana-haber a:hover {
+      background-color: #b92d36;
     }
 
-    .kategori-header {
-      font-size: 28px;
-      margin-bottom: 30px;
-      color: #333;
+    /* Haber Listesi */
+    .haber-listesi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 20px auto 40px;
+    }
+
+    .haber {
+      background-color: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .haber:hover {
+      transform: translateY(-5px);
+    }
+
+    .haber img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .haber h3 {
+      margin: 15px;
+      font-size: 18px;
+      color: #222;
+    }
+
+    .haber p {
+      margin: 0 15px 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .haber a {
+      display: inline-block;
+      margin: 0 15px 15px;
+      padding: 8px 12px;
+      background-color: #e63946;
+      color: #fff;
+      border-radius: 3px;
+      transition: background-color 0.3s;
+    }
+
+    .haber a:hover {
+      background-color: #b92d36;
+    }
+
+    /* Alt Bilgi */
+    .alt-bilgi {
+      background-color: #333;
+      color: #fff;
       text-align: center;
+      padding: 20px 0;
+      font-size: 14px;
     }
 
+    /* Responsive */
+    @media (max-width:768px) {
+      .ana-haber h2 { font-size: 24px; }
+      .ana-haber p { font-size: 14px; margin: 0 15px 10px; }
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Azad Haber</h1>
-  <nav>
+<!-- Üst Menü -->
+<header class="ust-bar">
+  <div class="logo">
+    <img src="img/logo.png" alt="Logo">
+  </div>
+  <nav class="menu">
     <ul>
-      <li><a href="?category=guncel">Güncel</a></li>
-      <li><a href="?category=politika">Politika</a></li>
-      <li><a href="?category=ekonomi">Ekonomi</a></li>
-      <li><a href="?category=spor">Spor</a></li>
+      <li><a href="index.html">Ana Sayfa</a></li>
+      <li><a href="haber.html" class="aktif">Haberler</a></li>
+      <li><a href="iletisim.html">İletişim</a></li>
     </ul>
   </nav>
 </header>
 
-<main id="haberlerListesi">
-  <!-- Firebase'den gelen haberler burada görünecek -->
+<!-- Son Dakika Barı -->
+<div class="son-dakika">
+  <span class="etiket">SON DAKİKA:</span>
+  <div class="kaydirici">
+    <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
+  </div>
+</div>
+
+<!-- Ana İçerik -->
+<main class="icerik">
+  <!-- Manşet Haber -->
+  <section class="ana-haber">
+    <img src="img/haber1.jpg" alt="Diyarbakır Son Gelişmeler">
+    <h2>DEM Parti'den dikkat çeken "Selçuk Mızraklı" açıklaması</h2>
+    <p>
+      DEM Parti, 2019'dan bu yana tutuklu bulunan eski Diyarbakır Büyükşehir Belediye Eşbaşkanı Adnan Selçuk Mızraklı ile ilgili açıklama yaptı. Açıklamada, "Mızraklı'nın denetimli serbestliğin uygulanarak tahliye olma talebi, Cezaevi İdare ve Gözlem Kurulu tarafından, 'Kurumumuzda bulunduğu süre içerisinde terör örgütünden ayrıldığına dair bir beyanı bulunmadı' denilerek reddedildi." ifadelerine yer verildi.
+    </p>
+    <a href="haber/diyarbakir_son_gelismeler.html">Haberi Oku</a>
+  </section>
+
+  <!-- Haber Listesi -->
+  <section class="haber-listesi">
+    <!-- Dinamik haberler buraya gelecek -->
+  </section>
 </main>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+<!-- Alt Bilgi -->
+<footer class="alt-bilgi">
+  <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
+  <p><a href="hakkimizda.html">Hakkımızda</a></p>
+</footer>
 
-  const firebaseConfig = {
-    apiKey: "API_KEYİNİZ",
-    authDomain: "azadhaber1.firebaseapp.com",
-    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-    projectId: "azadhaber1",
-    storageBucket: "azadhaber1.appspot.com",
-    messagingSenderId: "307978936562",
-    appId: "1:307978936562:web:7eb007183210681d306b"
-  };
+<!-- JS: Son Dakika -->
+<script>
+  const haberler = [
+    "Diyarbakır’da kültürel etkinlikler artıyor...",
+    "Ekonomi: Yeni teşvik paketi açıklandı.",
+    "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
+    "Diyarbakırspor galibiyetle sezona başladı!",
+    "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
+  ];
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const haberlerListesi = document.getElementById("haberlerListesi");
+  let index = 0;
+  const yaziAlani = document.getElementById("son-dakika-yazi");
 
-  // URL parametresine göre kategori seçimi
-  const params = new URLSearchParams(window.location.search);
-  const category = params.get("category");
-
-  const newsRef = ref(db, "haberler/" + category);
-  onValue(newsRef, snapshot => {
-    haberlerListesi.innerHTML = "";  // Her kategoride güncel listeyi temizle
-
-    snapshot.forEach(child => {
-      const h = child.val();
-      const haberItem = document.createElement("div");
-      haberItem.classList.add("haber-item");
-
-      haberItem.innerHTML = `
-        <h2>${h.title}</h2>
-        <img src="${h.image}" alt="Haber Görseli">
-        <p>${h.content.substring(0, 200)}...</p>
-        <a href="haber-detay.html?slug=${h.slug}" class="read-more">Haberi Oku</a>
-      `;
-      haberlerListesi.appendChild(haberItem);
-    });
-  });
+  setInterval(() => {
+    index = (index + 1) % haberler.length;
+    yaziAlani.textContent = haberler[index];
+  }, 10000);
 </script>
 
 </body>

@@ -1,322 +1,136 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rojin’in Vücudundaki 2 DNA’nın Bulaş Olmadığı Kesinleşti – Azad Haber</title>
-  <link rel="icon" type="img/png" href="../img/favicon.png">
-  <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
-  <link rel="stylesheet" href="../style.css">
-  <style>
-    /* Temel Stil */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f8f8;
-      color: #333;
-    }
-
-    /* Üst Menü */
-    .ust-bar {
-      background-color: #2d2d2d;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-    }
-
-    .logo h1 {
-      margin: 0;
-      font-size: 28px;
-      color: #e63946;
-    }
-
-    .logo p {
-      font-size: 12px;
-      margin: 0;
-      color: #ccc;
-    }
-
-    .menu a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .menu a.aktif {
-      color: #e63946;
-    }
-
-    /* Son Dakika Bar */
-    .son-dakika {
-      background-color: #e63946;
-      color: white;
-      padding: 8px 20px;
-      font-weight: bold;
-    }
-
-    .son-dakika .etiket {
-      margin-right: 8px;
-    }
-
-    /* Haber Detay */
-    .icerik {
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 0 15px;
-      background-color: #fff;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-
-    .haber-detay h2 {
-      font-size: 28px;
-      margin-top: 20px;
-      color: #222;
-    }
-
-    .haber-tarih {
-      color: #999;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-
-    .haber-gorsel {
-      width: 100%;
-      margin: 15px 0;
-      border-radius: 5px;
-    }
-
-    .haber-detay p {
-      line-height: 1.8;
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-
-    .geri {
-      display: inline-block;
-      padding: 8px 15px;
-      background-color: #e60000;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 3px;
-      margin-bottom: 20px;
-    }
-
-    /* Comment Box */
-    .comment-box {
-      max-width: 900px;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 15px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-
-    .comment-box textarea {
-      width: 100%;
-      min-height: 80px;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    .comment-box button {
-      padding: 8px 15px;
-      background-color: #e63946;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-
-    .comment-list {
-      max-width: 900px;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 15px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-
-    .single-comment {
-      border-bottom: 1px solid #eee;
-      padding: 8px 0;
-    }
-
-    /* Footer */
-    .alt-bilgi {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 15px 0;
-      margin-top: 20px;
-      font-size: 14px;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .ust-bar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .ust-bar .menu a {
-        margin: 5px 0 0 0;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rojin’in Vücudundaki 2 DNA’nın Bulaş Olmadığı Kesinleşti – Azad Haber</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+body { font-family: Arial; margin:0; background:#f8f8f8; color:#333;}
+.ust-bar{background:#2d2d2d;color:white;display:flex;justify-content:space-between;align-items:center;padding:15px 40px;}
+.menu a{color:white;margin:0 15px;text-decoration:none;font-weight:bold;}
+.menu a.aktif{color:#e63946;}
+.son-dakika{background:#e63946;color:white;padding:8px 20px;font-weight:bold;}
+.icerik{max-width:900px;margin:20px auto;padding:15px;background:white;box-shadow:0 0 5px rgba(0,0,0,0.1);}
+.haber-gorsel{width:100%;border-radius:5px;margin:15px 0;}
+.geri{display:inline-block;padding:8px 15px;background:#e60000;color:white;text-decoration:none;border-radius:3px;margin-bottom:20px;}
+.comment-box, .comment-list{max-width:900px;margin:20px auto;padding:15px;background:white;box-shadow:0 0 5px rgba(0,0,0,0.1);border-radius:5px;}
+.comment-box textarea{width:100%;min-height:80px;padding:10px;border-radius:3px;border:1px solid #ccc;margin-bottom:10px;}
+.comment-box button{padding:8px 15px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
+.single-comment{border-bottom:1px solid #eee;padding:8px 0;}
+.alt-bilgi{background:#333;color:white;text-align:center;padding:15px 0;margin-top:20px;}
+</style>
 </head>
 <body>
 
-  <!-- Üst Menü -->
-  <header class="ust-bar">
-    <div class="logo">
-      <img src="../img/logo.png" alt="Logo">
-    </div>
-    <nav class="menu">
-      <ul>
-        <li><a href="../index.html">Ana Sayfa</a></li>
-        <li><a href="../haber.html" class="aktif">Haberler</a></li>
-        <li><a href="../iletisim.html">İletişim</a></li>
-      </ul>
-    </nav>
-  </header>
+<header class="ust-bar">
+<div class="logo"><img src="../img/logo.png" alt="Logo"></div>
+<nav class="menu">
+<ul>
+<li><a href="../index.html">Ana Sayfa</a></li>
+<li><a href="../haber.html" class="aktif">Haberler</a></li>
+<li><a href="../iletisim.html">İletişim</a></li>
+</ul>
+</nav>
+</header>
 
-  <!-- Son Dakika Barı -->
-  <div class="son-dakika">
-    <span class="etiket">SON DAKİKA:</span>
-    <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
-  </div>
+<div class="son-dakika"><span class="etiket">SON DAKİKA:</span> <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span></div>
 
-  <!-- Haber İçeriği -->
-  <main class="icerik">
-    <article class="haber-detay">
-      <h2>Rojin’in Vücudundaki 2 DNA’nın Bulaş Olmadığı Kesinleşti</h2>
-      <p class="haber-tarih">13 Kasım 2025 – Görüntülenme: <span id="goruntulenme2">0</span></p>
-      <img src="../img/haber3.jpg" alt="Rojin’in haberi" class="haber-gorsel">
-      <p>
-        Diyarbakır’da büyük yankı uyandıran olayda, adli tıp tarafından yapılan son inceleme sonucunda Rojin’in vücudundaki iki farklı DNA örneğinin bulaş olmadığı kesinleşti. Uzmanlar, yapılan detaylı analizler sonucunda örneklerin dış etkenlerden etkilenmediğini ve olayla doğrudan bağlantılı olduğunu belirtti.
-      </p>
-      <p>
-        Adli kaynaklardan alınan bilgilere göre, raporun tamamlanmasının ardından savcılık yeni bir değerlendirme süreci başlatacak. Aile avukatı yaptığı açıklamada, “Uzun süredir beklediğimiz bilimsel doğrulama geldi, artık gerçek ortaya çıkıyor” dedi.
-      </p>
-      <p>
-        Olayla ilgili soruşturmanın önümüzdeki hafta içinde yeni tanık ifadeleriyle genişletilmesi bekleniyor. Bölge halkı ise davanın adil şekilde sonuçlanması için çağrıda bulundu.
-      </p>
-      <a href="../index.html" class="geri">← Ana Sayfaya Dön</a>
-    </article>
-  </main>
+<main class="icerik">
+<article class="haber-detay">
+<h2>Rojin’in Vücudundaki 2 DNA’nın Bulaş Olmadığı Kesinleşti</h2>
+<p class="haber-tarih">13 Kasım 2025 – Görüntülenme: <span id="goruntulenme2">0</span></p>
+<img src="../img/haber3.jpg" alt="Rojin’in haberi" class="haber-gorsel">
+<p>Diyarbakır’da büyük yankı uyandıran olayda...</p>
+<a href="../index.html" class="geri">← Ana Sayfaya Dön</a>
+</article>
+</main>
 
-  <!-- Yorum Kutusu -->
-  <div class="comment-box">
-    <h3>Yorum Yap</h3>
-    <textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
-    <button onclick="addComment()">Gönder</button>
-  </div>
+<div class="comment-box">
+<h3>Yorum Yap</h3>
+<textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
+<button id="commentBtn">Gönder</button>
+</div>
 
-  <!-- Yorum Listesi -->
-  <div class="comment-list" id="commentList">
-    <h3>Yorumlar</h3>
-  </div>
+<div class="comment-list" id="commentList">
+<h3>Yorumlar</h3>
+</div>
 
-  <!-- Footer -->
-  <footer class="alt-bilgi">
-    <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
-    <p><a href="../hakkımızda.html">Hakkımızda</a></p>
-  </footer>
+<footer class="alt-bilgi">
+<p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
+<p><a href="../hakkımızda.html">Hakkımızda</a></p>
+</footer>
 
-  <!-- Son Dakika JS -->
-  <script>
-    const haberler = [
-      "Diyarbakır’da kültürel etkinlikler artıyor...",
-      "Ekonomi: Yeni teşvik paketi açıklandı.",
-      "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
-      "Diyarbakırspor galibiyetle sezona başladı!",
-      "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
-    ];
+<script>
+const haberler = [
+"Diyarbakır’da kültürel etkinlikler artıyor...",
+"Ekonomi: Yeni teşvik paketi açıklandı.",
+"Meteoroloji: Güneydoğu’da yağış bekleniyor.",
+"Diyarbakırspor galibiyetle sezona başladı!",
+"Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
+];
+let index=0;
+const yaziAlani=document.getElementById("son-dakika-yazi");
+setInterval(()=>{index=(index+1)%haberler.length;yaziAlani.textContent=haberler[index];},10000);
+</script>
 
-    let index = 0;
-    const yaziAlani = document.getElementById("son-dakika-yazi");
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, get, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-    setInterval(() => {
-      index = (index + 1) % haberler.length;
-      yaziAlani.textContent = haberler[index];
-    }, 10000);
-  </script>
+const firebaseConfig = {
+apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
+authDomain: "azadhaber1.firebaseapp.com",
+databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+projectId: "azadhaber1",
+storageBucket: "azadhaber1.firebasestorage.app",
+messagingSenderId: "307978936562",
+appId: "1:307978936562:web:7eb007183210681d6d306b",
+measurementId: "G-MX88RBRPBR"
+};
 
-  <!-- Firebase Yorum ve Görüntüleme Sayacı -->
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-    authDomain: "azadhaber1.firebaseapp.com",
-    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-    projectId: "azadhaber1",
-    storageBucket: "azadhaber1.firebasestorage.app",
-    messagingSenderId: "307978936562",
-    appId: "1:307978936562:web:7eb007183210681d6d306b",
-    measurementId: "G-MX88RBRPBR"
-  };
+// Sayfa için unique key
+const pageKey = "haber2"; // manuel key, path karmaşasından kurtarır
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+// ------------------
+// 1) Görüntüleme sayacı
+// ------------------
+const viewRef = ref(db, "views/" + pageKey);
+get(viewRef).then(snapshot=>{
+let count = snapshot.exists() ? snapshot.val() : 0;
+count++;
+set(viewRef,count);
+document.getElementById("goruntulenme2").textContent=count;
+});
 
-    // ------------------------
-    // 1) YORUMLAR
-    // ------------------------
-    const commentRef = ref(db, "comments/" + window.location.pathname.replace(/\//g, "_"));
+// ------------------
+// 2) Yorumlar
+// ------------------
+const commentRef = ref(db, "comments/" + pageKey);
+const commentList = document.getElementById("commentList");
+const commentBtn = document.getElementById("commentBtn");
+const commentInput = document.getElementById("commentInput");
 
-    window.addComment = function () {
-      const input = document.getElementById("commentInput");
-      const text = input.value.trim();
+commentBtn.addEventListener("click", ()=>{
+let text = commentInput.value.trim();
+if(text===""){alert("Yorum boş olamaz!"); return;}
+push(commentRef, text);
+commentInput.value="";
+});
 
-      if (text === "") {
-        alert("Yorum boş olamaz!");
-        return;
-      }
-
-      push(commentRef, text);
-      input.value = "";
-    };
-
-    // Yorumları canlı olarak çek
-    onValue(commentRef, (snapshot) => {
-      const list = document.getElementById("commentList");
-      list.innerHTML = "<h3>Yorumlar</h3>";
-
-      snapshot.forEach((child) => {
-        const div = document.createElement("div");
-        div.className = "single-comment";
-        div.innerHTML = `<p>${child.val()}</p>`;
-        list.appendChild(div);
-      });
-    });
-
-    // ------------------------
-    // 2) SAYFA GÖRÜNTÜLEME SAYACI
-    // ------------------------
-    const pageKey = window.location.pathname.replace(/\//g, "_");
-    const viewRef = ref(db, "views/" + pageKey);
-
-    get(viewRef).then(snapshot => {
-      let count = snapshot.exists() ? snapshot.val() : 0;
-      count++;
-      set(viewRef, count);
-      document.getElementById("goruntulenme2").textContent = count;
-    });
-  </script>
+onValue(commentRef, snapshot=>{
+commentList.innerHTML="<h3>Yorumlar</h3>";
+snapshot.forEach(child=>{
+let div=document.createElement("div");
+div.className="single-comment";
+div.innerHTML=`<p>${child.val()}</p>`;
+commentList.appendChild(div);
+});
+});
+</script>
 
 </body>
 </html>

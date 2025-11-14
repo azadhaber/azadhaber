@@ -273,13 +273,13 @@ body {
 }
 
 .comment-box textarea:focus {
-  border-color: #007bff;
+  border-color: #b92d36;
 }
 
 .comment-box button {
   margin-top: 10px;
   padding: 10px 20px;
-  background: #007bff;
+  background: #b92d36;
   color: white;
   border: none;
   border-radius: 8px;
@@ -288,7 +288,7 @@ body {
 }
 
 .comment-box button:hover {
-  background: #b92d36 ;
+  background: #b92d36;
 }
 
 .comment-list {

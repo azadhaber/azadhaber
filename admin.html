@@ -1,89 +1,135 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Azad Haber | Admin Paneli</title>
-<link rel="stylesheet" href="style.css">
-<style>
-body { font-family: Arial, sans-serif; background: #f4f4f4; }
-.admin-container { max-width: 900px; margin: 30px auto; }
-input, textarea, button { width:100%; padding:10px; margin-bottom:10px; }
-button { background:#e63946; color:white; border:none; cursor:pointer; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azad Haber | Admin Paneli</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; }
+    .admin-container { max-width: 900px; margin: 30px auto; }
+    input, textarea, button, select { width: 100%; padding: 10px; margin-bottom: 10px; }
+    button { background: #e63946; color: white; border: none; cursor: pointer; }
+    .haber-liste { margin-top: 20px; }
+    .haber-item { margin: 10px 0; background: #fff; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+    .haber-item button { background: red; color: white; border: none; cursor: pointer; }
+  </style>
 </head>
 <body>
-<div class="admin-container">
-<h2>Yeni Haber Ekle</h2>
-<input type="text" id="newsTitle" placeholder="Haber Başlığı">
-<textarea id="newsContent" placeholder="Haber İçeriği"></textarea>
-<input type="text" id="newsImage" placeholder="Resim URL'si">
-<select id="newsCategory">
-    <option value="guncel">Güncel</option>
-    <option value="politika">Politika</option>
-    <option value="ekonomi">Ekonomi</option>
-    <option value="spor">Spor</option>
-</select>
-<button id="addNewsBtn">Haberi Kaydet</button>
-<div id="newsStatus" style="color:green;"></div>
-</div>
+  <div class="admin-container">
+    <h2>Yeni Haber Ekle</h2>
+    <input type="text" id="newsTitle" placeholder="Haber Başlığı">
+    <textarea id="newsContent" placeholder="Haber İçeriği"></textarea>
+    <input type="file" id="newsImage" placeholder="Resim Yükle">
+    <select id="newsCategory">
+      <option value="guncel">Güncel</option>
+      <option value="politika">Politika</option>
+      <option value="ekonomi">Ekonomi</option>
+      <option value="spor">Spor</option>
+    </select>
+    <label for="sendToIndex">Ana Sayfaya Gönder</label>
+    <input type="checkbox" id="sendToIndex">
+    <button id="addNewsBtn">Haberi Kaydet</button>
+    <div id="newsStatus" style="color: green;"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+    <div class="haber-liste" id="haberListesi">
+      <h3>Mevcut Haberler</h3>
+      <!-- Firebase'den alınan haberler buraya gelecek -->
+    </div>
+  </div>
 
-// Firebase ayarları
-const firebaseConfig = {
-  apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-  authDomain: "azadhaber1.firebaseapp.com",
-  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-  projectId: "azadhaber1",
-  storageBucket: "azadhaber1.appspot.com",
-  messagingSenderId: "307978936562",
-  appId: "1:307978936562:web:7eb007183210681d306b"
-};
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getDatabase, ref, push, remove, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+    const firebaseConfig = {
+      apiKey: "API_KEYİNİZ",
+      authDomain: "azadhaber1.firebaseapp.com",
+      databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+      projectId: "azadhaber1",
+      storageBucket: "azadhaber1.appspot.com",
+      messagingSenderId: "307978936562",
+      appId: "1:307978936562:web:7eb007183210681d306b"
+    };
 
-// Türkçe karakterleri düzenleyen slugify fonksiyonu
-function slugify(text){
-    const trMap = { 'ç':'c', 'ğ':'g', 'ı':'i', 'ö':'o', 'ş':'s', 'ü':'u' };
-    text = text.toLowerCase().replace(/[çğıöşü]/g, c => trMap[c] || c); // Türkçe karakterleri dönüştürme
-    return text.replace(/\s+/g,'-')  // Boşlukları '-' ile değiştir
-               .replace(/[^\w\-]+/g,'')  // Geçersiz karakterleri sil
-               .replace(/\-\-+/g,'-')  // Birden fazla '-' varsa bir taneyle değiştir
-               .replace(/^-+/,'')  // Başındaki '-' karakterini sil
-               .replace(/-+$/,'');  // Sonundaki '-' karakterini sil
-}
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const storage = getStorage(app);
 
-// Yeni haber ekleme
-const addNewsBtn = document.getElementById("addNewsBtn");
-addNewsBtn.addEventListener("click", ()=> {
-    const title = document.getElementById("newsTitle").value.trim();
-    const content = document.getElementById("newsContent").value.trim();
-    const image = document.getElementById("newsImage").value.trim();
-    const category = document.getElementById("newsCategory").value;
-
-    if(!title || !content || !image) { 
-        alert("Tüm alanlar doldurulmalıdır!"); 
-        return; 
+    // Slug oluşturma fonksiyonu
+    function slugify(text) {
+      return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
     }
 
-    const slug = slugify(title);  // Slug'ı oluştur
+    const addNewsBtn = document.getElementById("addNewsBtn");
 
-    // Firebase'e haber verisini ekleme
-    const newsRef = ref(db, "haberler/" + category);
-    push(newsRef, { title, content, image, slug });
+    // Yeni haber ekleme
+    addNewsBtn.addEventListener("click", () => {
+      const title = document.getElementById("newsTitle").value.trim();
+      const content = document.getElementById("newsContent").value.trim();
+      const category = document.getElementById("newsCategory").value;
+      const sendToIndex = document.getElementById("sendToIndex").checked;
+      const slug = slugify(title);
 
-    document.getElementById("newsStatus").textContent = "Haber başarıyla eklendi!";
-    
-    // Formu temizle
-    document.getElementById("newsTitle").value = "";
-    document.getElementById("newsContent").value = "";
-    document.getElementById("newsImage").value = "";
-});
-</script>
+      const imageFile = document.getElementById("newsImage").files[0];
 
+      if (!title || !content || !imageFile) { alert("Tüm alanlar doldurulmalıdır!"); return; }
+
+      // Resmi Firebase Storage'a yükleyelim
+      const storagePath = `haber-images/${slug}.jpg`;
+      const imageRef = storageRef(storage, storagePath);
+
+      uploadBytes(imageRef, imageFile).then((snapshot) => {
+        const imageUrl = snapshot.metadata.fullPath; // Resim URL'sini alın
+        const newsRef = ref(db, "haberler/" + category);
+        push(newsRef, {
+          title,
+          content,
+          image: imageUrl,
+          slug,
+          sendToIndex
+        });
+
+        document.getElementById("newsStatus").textContent = "Haber başarıyla eklendi!";
+        document.getElementById("newsTitle").value = "";
+        document.getElementById("newsContent").value = "";
+        document.getElementById("sendToIndex").checked = false;
+
+        loadNewsList();  // Haber listesine eklediğimiz haberi yükleyelim
+      });
+    });
+
+    // Haber silme
+    function deleteNews(newsId) {
+      const newsRef = ref(db, "haberler/" + newsId);
+      remove(newsRef).then(() => {
+        loadNewsList();  // Silme işleminden sonra listeyi güncelle
+      });
+    }
+
+    // Firebase'den haberleri alıp listeleme
+    function loadNewsList() {
+      const newsRef = ref(db, "haberler");
+      onValue(newsRef, snapshot => {
+        const haberListesi = document.getElementById("haberListesi");
+        haberListesi.innerHTML = "<h3>Mevcut Haberler</h3>";  // Başlığı ekleyelim
+
+        snapshot.forEach(child => {
+          const h = child.val();
+          const newsId = child.key;
+          const haberItem = document.createElement("div");
+          haberItem.classList.add("haber-item");
+          haberItem.innerHTML = `
+            <h4>${h.title}</h4>
+            <button onclick="deleteNews('${newsId}')">Haberi Sil</button>
+          `;
+          haberListesi.appendChild(haberItem);
+        });
+      });
+    }
+
+    loadNewsList();  // Admin paneli yüklendiğinde haber listesi
+  </script>
 </body>
 </html>

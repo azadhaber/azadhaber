@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Azad Haber | Güncel, Politika, Spor ve Daha Fazlası</title>
-    <link rel="icon" type="img/png" href="img/favicon.png">
     <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,12 +12,13 @@
     <!-- Üst Menü -->
     <header class="ust-bar">
         <div class="logo">
-            <img src="img/logo.png" alt="Logo">
+            <h1>AZAD</h1>
+            <p>Özgür Haberin Adresi</p>
         </div>
         <nav class="menu">
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="haber.html" class="aktif">Haberler</a></li>
-            <li><a href="iletisim.html">İletişim</a></li>
+            <a href="index.html">Ana Sayfa</a>
+            <a href="haber.html" class="aktif">Haberler</a>
+            <a href="iletisim.html">İletişim</a>
         </nav>
     </header>
 
@@ -92,7 +92,6 @@
     <!-- Alt Bilgi -->
     <footer class="alt-bilgi">
         <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
-        <p><a href="hakkımızda.html">Hakkımızda</a></p>
     </footer>
 
     <!-- JS: Son Dakika + Koruma -->
@@ -112,6 +111,7 @@
             index = (index + 1) % haberler.length;
             yaziAlani.textContent = haberler[index];
         }, 10000);
+
     </script>
 
 </body>

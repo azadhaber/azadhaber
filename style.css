@@ -250,3 +250,61 @@ body {
 .haber-detay .geri:hover {
     background-color: #b92d36;
 }
+
+.comment-box {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f8f8f8;
+}
+
+.comment-box textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  resize: none;
+}
+
+.comment-box textarea:focus {
+  border-color: #007bff;
+}
+
+.comment-box button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.comment-box button:hover {
+  background: #0056b3;
+}
+
+.comment-list {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.single-comment {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+.single-comment p {
+  margin: 0;
+}

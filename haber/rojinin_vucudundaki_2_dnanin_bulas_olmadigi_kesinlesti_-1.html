@@ -15,7 +15,7 @@ body { font-family: Arial; margin:0; background:#f8f8f8; color:#333;}
 .haber-gorsel{width:100%;border-radius:5px;margin:15px 0;}
 .geri{display:inline-block;padding:8px 15px;background:#e60000;color:white;text-decoration:none;border-radius:3px;margin-bottom:20px;}
 .comment-box, .comment-list{max-width:900px;margin:20px auto;padding:15px;background:white;box-shadow:0 0 5px rgba(0,0,0,0.1);border-radius:5px;}
-.comment-box textarea{width:100%;min-height:80px;padding:10px;border-radius:3px;border:1px solid #ccc;margin-bottom:10px;}
+.comment-box input, .comment-box textarea{width:100%;padding:10px;border-radius:3px;border:1px solid #ccc;margin-bottom:10px;}
 .comment-box button{padding:8px 15px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
 .single-comment{border-bottom:1px solid #eee;padding:8px 0;}
 .single-comment button{margin-left:10px;padding:3px 6px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
@@ -48,9 +48,10 @@ body { font-family: Arial; margin:0; background:#f8f8f8; color:#333;}
 </main>
 
 <div class="comment-box">
-<h3>Yorum Yap</h3>
-<textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
-<button id="commentBtn">Gönder</button>
+  <h3>Yorum Yap</h3>
+  <input type="text" id="commentName" placeholder="Adınız..." />
+  <textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
+  <button id="commentBtn">Gönder</button>
 </div>
 
 <div class="comment-list" id="commentList">
@@ -125,13 +126,17 @@ const commentRef = ref(db, "comments/" + pageKey);
 const commentList = document.getElementById("commentList");
 const commentBtn = document.getElementById("commentBtn");
 const commentInput = document.getElementById("commentInput");
+const commentName = document.getElementById("commentName");
 
 // Yorum ekleme
 commentBtn.addEventListener("click", ()=>{
-  let text = commentInput.value.trim();
-  if(text===""){alert("Yorum boş olamaz!"); return;}
-  push(commentRef, { text: text, userID: userID });
-  commentInput.value="";
+  const name = commentName.value.trim();
+  const text = commentInput.value.trim();
+  if(name === "" || text === ""){ alert("Adınız ve yorumunuz boş olamaz!"); return; }
+
+  push(commentRef, { name: name, text: text, userID: userID });
+  commentInput.value = "";
+  commentName.value = "";
 });
 
 // Yorumları çek ve listele
@@ -139,7 +144,7 @@ onValue(commentRef, snapshot=>{
   commentList.innerHTML="<h3>Yorumlar</h3>";
   snapshot.forEach(child=>{
     const comment = child.val();
-    let div = document.createElement("div");
+    const div = document.createElement("div");
     div.className="single-comment";
 
     // Sil butonu: yalnızca yorum sahibi veya admin görebilir
@@ -148,15 +153,17 @@ onValue(commentRef, snapshot=>{
       silBtn = `<button onclick="deleteComment('${child.key}')">Sil</button>`;
     }
 
-    div.innerHTML=`<p>${comment.text}</p> ${silBtn}`;
+    div.innerHTML = `<p><strong>${comment.name}:</strong> ${comment.text}</p>${silBtn}`;
     commentList.appendChild(div);
   });
 });
 
 // Yorum silme fonksiyonu
 window.deleteComment = function(key){
-  const commentRefToDelete = ref(db, "comments/" + pageKey + "/" + key);
-  set(commentRefToDelete, null);
+  if(confirm("Bu yorumu silmek istediğinize emin misiniz?")){
+    const commentRefToDelete = ref(db, "comments/" + pageKey + "/" + key);
+    set(commentRefToDelete, null);
+  }
 };
 </script>
 

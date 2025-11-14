@@ -5,62 +5,179 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Azad Haber | Haberler</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #2d2d2d;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 36px;
+      margin: 0;
+    }
+
+    nav {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    nav ul li a:hover {
+      color: #e63946;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .haber-item {
+      background-color: #fff;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .haber-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .haber-item h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .haber-item img {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .haber-item p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .haber-item .read-more {
+      display: inline-block;
+      padding: 8px 15px;
+      background-color: #e63946;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .haber-item .read-more:hover {
+      background-color: #d32f2f;
+    }
+
+    .kategori-header {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #333;
+      text-align: center;
+    }
+
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Haberler</h1>
-    <nav>
-      <ul>
-        <li><a href="?category=guncel">Güncel</a></li>
-        <li><a href="?category=politika">Politika</a></li>
-        <li><a href="?category=ekonomi">Ekonomi</a></li>
-        <li><a href="?category=spor">Spor</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <main id="haberlerListesi">
-    <!-- Firebase'den gelen haberler burada görünecek -->
-  </main>
+<header>
+  <h1>Azad Haber</h1>
+  <nav>
+    <ul>
+      <li><a href="?category=guncel">Güncel</a></li>
+      <li><a href="?category=politika">Politika</a></li>
+      <li><a href="?category=ekonomi">Ekonomi</a></li>
+      <li><a href="?category=spor">Spor</a></li>
+    </ul>
+  </nav>
+</header>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+<main id="haberlerListesi">
+  <!-- Firebase'den gelen haberler burada görünecek -->
+</main>
 
-    const firebaseConfig = {
-      apiKey: "API_KEYİNİZ",
-      authDomain: "azadhaber1.firebaseapp.com",
-      databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-      projectId: "azadhaber1",
-      storageBucket: "azadhaber1.appspot.com",
-      messagingSenderId: "307978936562",
-      appId: "1:307978936562:web:7eb007183210681d306b"
-    };
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const haberlerListesi = document.getElementById("haberlerListesi");
+  const firebaseConfig = {
+    apiKey: "API_KEYİNİZ",
+    authDomain: "azadhaber1.firebaseapp.com",
+    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+    projectId: "azadhaber1",
+    storageBucket: "azadhaber1.appspot.com",
+    messagingSenderId: "307978936562",
+    appId: "1:307978936562:web:7eb007183210681d306b"
+  };
 
-    // URL parametresine göre kategori seçimi
-    const params = new URLSearchParams(window.location.search);
-    const category = params.get("category");
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const haberlerListesi = document.getElementById("haberlerListesi");
 
-    const newsRef = ref(db, "haberler/" + category);
-    onValue(newsRef, snapshot => {
-      haberlerListesi.innerHTML = "";  // Her kategoride güncel listeyi temizle
+  // URL parametresine göre kategori seçimi
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get("category");
 
-      snapshot.forEach(child => {
-        const h = child.val();
-        const haberItem = document.createElement("div");
-        haberItem.classList.add("haber-item");
-        haberItem.innerHTML = `
-          <h4>${h.title}</h4>
-          <p>${h.content}</p>
-          <img src="${h.image}" alt="Haber Görseli" style="width: 100%; max-height: 300px;">
-        `;
-        haberlerListesi.appendChild(haberItem);
-      });
+  const newsRef = ref(db, "haberler/" + category);
+  onValue(newsRef, snapshot => {
+    haberlerListesi.innerHTML = "";  // Her kategoride güncel listeyi temizle
+
+    snapshot.forEach(child => {
+      const h = child.val();
+      const haberItem = document.createElement("div");
+      haberItem.classList.add("haber-item");
+
+      haberItem.innerHTML = `
+        <h2>${h.title}</h2>
+        <img src="${h.image}" alt="Haber Görseli">
+        <p>${h.content.substring(0, 200)}...</p>
+        <a href="haber-detay.html?slug=${h.slug}" class="read-more">Haberi Oku</a>
+      `;
+      haberlerListesi.appendChild(haberItem);
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>

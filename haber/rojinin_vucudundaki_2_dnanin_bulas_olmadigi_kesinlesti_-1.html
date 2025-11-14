@@ -217,6 +217,26 @@ function sayaciGoster(haberID, elementID) {
 // Haber ID'leri ile çağır
 
 sayaciGoster(2, "goruntulenme2");
+
+function addComment() {
+  const input = document.getElementById("commentInput");
+  const commentText = input.value.trim();
+
+  if (commentText === "") {
+    alert("Yorum boş olamaz!");
+    return;
+  }
+
+  const commentList = document.getElementById("commentList");
+
+  const commentDiv = document.createElement("div");
+  commentDiv.className = "single-comment";
+  commentDiv.innerHTML = `<p>${commentText}</p>`;
+
+  commentList.appendChild(commentDiv);
+
+  input.value = "";
+}
 </script>
 
 </body>

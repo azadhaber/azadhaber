@@ -218,26 +218,45 @@ function sayaciGoster(haberID, elementID) {
 
 sayaciGoster(2, "goruntulenme2");
 
+
+// Sayfa açılınca yorumları yükle
+window.onload = function() {
+  let comments = JSON.parse(localStorage.getItem("comments")) || [];
+  const list = document.getElementById("commentList");
+
+  comments.forEach(c => {
+    const div = document.createElement("div");
+    div.className = "single-comment";
+    div.innerHTML = `<p>${c}</p>`;
+    list.appendChild(div);
+  });
+}
+
 function addComment() {
   const input = document.getElementById("commentInput");
-  const commentText = input.value.trim();
+  const text = input.value.trim();
 
-  if (commentText === "") {
+  if (text === "") {
     alert("Yorum boş olamaz!");
     return;
   }
 
+  // Yorum kutusu
   const commentList = document.getElementById("commentList");
+  const div = document.createElement("div");
+  div.className = "single-comment";
+  div.innerHTML = `<p>${text}</p>`;
+  commentList.appendChild(div);
 
-  const commentDiv = document.createElement("div");
-  commentDiv.className = "single-comment";
-  commentDiv.innerHTML = `<p>${commentText}</p>`;
-
-  commentList.appendChild(commentDiv);
+  // localStorage’a kaydet
+  let comments = JSON.parse(localStorage.getItem("comments")) || [];
+  comments.push(text);
+  localStorage.setItem("comments", JSON.stringify(comments));
 
   input.value = "";
 }
 </script>
+
 
 </body>
 </html>

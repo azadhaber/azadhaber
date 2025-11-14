@@ -13,8 +13,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
+// Firebase yapılandırması
 const firebaseConfig = {
-  apiKey: "API_KEYİNİZ",
+  apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
   authDomain: "azadhaber1.firebaseapp.com",
   databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
   projectId: "azadhaber1",
@@ -22,35 +23,44 @@ const firebaseConfig = {
   messagingSenderId: "307978936562",
   appId: "1:307978936562:web:7eb007183210681d306b"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// URL parametresinden slug'ı almak
 function getSlug() {
     const params = new URLSearchParams(window.location.search);
-    return params.get("slug");
+    return params.get("slug");  // URL'deki slug parametresini döndür
 }
-const slug = getSlug();
-const main = document.getElementById("haberDetay");
 
-const kategoriler = ["guncel","politika","ekonomi","spor"];
-let bulundu = false;
+const slug = getSlug();  // URL'den slug'ı al
+const main = document.getElementById("haberDetay");  // haberDetay alanı
 
-kategoriler.forEach(cat=>{
-    const newsRef = ref(db,"haberler/"+cat);
-    onValue(newsRef, snapshot=>{
-        snapshot.forEach(child=>{
-            const h = child.val();
-            if(h.slug === slug){
+// Kategoriler
+const kategoriler = ["guncel", "politika", "ekonomi", "spor"];
+let bulundu = false;  // Haber bulundu mu?
+
+// Firebase'den haberleri çek ve slug'a göre eşleşme yap
+kategoriler.forEach(cat => {
+    const newsRef = ref(db, "haberler/" + cat);
+    onValue(newsRef, snapshot => {
+        snapshot.forEach(child => {
+            const h = child.val();  // Her haberin verileri
+            if (h.slug === slug) {  // Slug eşleşmesi
                 main.innerHTML = `
                     <h1>${h.title}</h1>
-                    <img src="${h.image}" alt="Haber Görseli">
+                    <img src="${h.image}" alt="Haber Görseli" style="width:100%; max-height:400px; object-fit:cover;">
                     <p>${h.content}</p>
                     <a href="../index.html">Ana Sayfaya Dön</a>
                 `;
-                bulundu = true;
+                bulundu = true;  // Haber bulundu
             }
         });
-        if(!bulundu){ main.innerHTML = "<p>Haber bulunamadı!</p>"; }
+
+        // Eğer haber bulunmazsa
+        if (!bulundu) {
+            main.innerHTML = "<p>Haber bulunamadı!</p>";
+        }
     });
 });
 </script>

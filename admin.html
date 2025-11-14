@@ -32,6 +32,7 @@ button { background:#e63946; color:white; border:none; cursor:pointer; }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
+// Firebase ayarları
 const firebaseConfig = {
   apiKey: "API_KEYİNİZ",
   authDomain: "azadhaber1.firebaseapp.com",
@@ -45,25 +46,44 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// Türkçe karakterleri düzenleyen slugify fonksiyonu
 function slugify(text){
-    return text.toString().toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'').replace(/\-\-+/g,'-').replace(/^-+/,'').replace(/-+$/,'');
+    const trMap = { 'ç':'c', 'ğ':'g', 'ı':'i', 'ö':'o', 'ş':'s', 'ü':'u' };
+    text = text.toLowerCase().replace(/[çğıöşü]/g, c => trMap[c] || c); // Türkçe karakterleri dönüştürme
+    return text.replace(/\s+/g,'-')  // Boşlukları '-' ile değiştir
+               .replace(/[^\w\-]+/g,'')  // Geçersiz karakterleri sil
+               .replace(/\-\-+/g,'-')  // Birden fazla '-' varsa bir taneyle değiştir
+               .replace(/^-+/,'')  // Başındaki '-' karakterini sil
+               .replace(/-+$/,'');  // Sonundaki '-' karakterini sil
 }
 
+// Yeni haber ekleme
 const addNewsBtn = document.getElementById("addNewsBtn");
-addNewsBtn.addEventListener("click", ()=>{
+addNewsBtn.addEventListener("click", ()=> {
     const title = document.getElementById("newsTitle").value.trim();
     const content = document.getElementById("newsContent").value.trim();
     const image = document.getElementById("newsImage").value.trim();
     const category = document.getElementById("newsCategory").value;
-    if(!title || !content || !image) { alert("Tüm alanlar doldurulmalıdır!"); return; }
-    const slug = slugify(title);
+
+    if(!title || !content || !image) { 
+        alert("Tüm alanlar doldurulmalıdır!"); 
+        return; 
+    }
+
+    const slug = slugify(title);  // Slug'ı oluştur
+
+    // Firebase'e haber verisini ekleme
     const newsRef = ref(db, "haberler/" + category);
     push(newsRef, { title, content, image, slug });
+
     document.getElementById("newsStatus").textContent = "Haber başarıyla eklendi!";
+    
+    // Formu temizle
     document.getElementById("newsTitle").value = "";
     document.getElementById("newsContent").value = "";
     document.getElementById("newsImage").value = "";
 });
 </script>
+
 </body>
 </html>

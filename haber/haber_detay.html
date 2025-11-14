@@ -1,68 +1,141 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Haber Detayı</title>
-<link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haber Detayı</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2d2d2d;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 36px;
+      margin: 0;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .haber-detay {
+      margin-bottom: 30px;
+    }
+
+    .haber-detay img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .haber-detay h2 {
+      font-size: 30px;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .haber-detay p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .geri-don {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #e63946;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .geri-don:hover {
+      background-color: #d32f2f;
+    }
+
+  </style>
 </head>
 <body>
-<main id="haberDetay"></main>
+
+<header>
+  <h1>Azad Haber</h1>
+</header>
+
+<main id="haberDetay">
+  <!-- Firebase'den gelen detay haber buraya eklenebilir -->
+</main>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-// Firebase yapılandırması
-const firebaseConfig = {
-  apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-  authDomain: "azadhaber1.firebaseapp.com",
-  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-  projectId: "azadhaber1",
-  storageBucket: "azadhaber1.appspot.com",
-  messagingSenderId: "307978936562",
-  appId: "1:307978936562:web:7eb007183210681d306b"
-};
+  const firebaseConfig = {
+    apiKey: "API_KEYİNİZ",
+    authDomain: "azadhaber1.firebaseapp.com",
+    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+    projectId: "azadhaber1",
+    storageBucket: "azadhaber1.appspot.com",
+    messagingSenderId: "307978936562",
+    appId: "1:307978936562:web:7eb007183210681d306b"
+  };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
-// URL parametresinden slug'ı almak
-function getSlug() {
+  function getSlug() {
     const params = new URLSearchParams(window.location.search);
-    return params.get("slug");  // URL'deki slug parametresini döndür
-}
+    return params.get("slug");
+  }
 
-const slug = getSlug();  // URL'den slug'ı al
-const main = document.getElementById("haberDetay");  // haberDetay alanı
+  const slug = getSlug();
+  const haberDetay = document.getElementById("haberDetay");
 
-// Kategoriler
-const kategoriler = ["guncel", "politika", "ekonomi", "spor"];
-let bulundu = false;  // Haber bulundu mu?
+  const kategoriler = ["guncel", "politika", "ekonomi", "spor"];
+  let found = false;
 
-// Firebase'den haberleri çek ve slug'a göre eşleşme yap
-kategoriler.forEach(cat => {
-    const newsRef = ref(db, "haberler/" + cat);
+  kategoriler.forEach(category => {
+    const newsRef = ref(db, "haberler/" + category);
     onValue(newsRef, snapshot => {
-        snapshot.forEach(child => {
-            const h = child.val();  // Her haberin verileri
-            if (h.slug === slug) {  // Slug eşleşmesi
-                main.innerHTML = `
-                    <h1>${h.title}</h1>
-                    <img src="${h.image}" alt="Haber Görseli" style="width:100%; max-height:400px; object-fit:cover;">
-                    <p>${h.content}</p>
-                    <a href="../index.html">Ana Sayfaya Dön</a>
-                `;
-                bulundu = true;  // Haber bulundu
-            }
-        });
-
-        // Eğer haber bulunmazsa
-        if (!bulundu) {
-            main.innerHTML = "<p>Haber bulunamadı!</p>";
+      snapshot.forEach(child => {
+        const h = child.val();
+        if (h.slug === slug) {
+          haberDetay.innerHTML = `
+            <div class="haber-detay">
+              <h2>${h.title}</h2>
+              <img src="${h.image}" alt="Haber Görseli">
+              <p>${h.content}</p>
+              <a href="haber.html?category=${category}" class="geri-don">Geri Dön</a>
+            </div>
+          `;
+          found = true;
         }
+      });
+
+      if (!found) {
+        haberDetay.innerHTML = "<p>Haber bulunamadı.</p>";
+      }
     });
-});
+  });
 </script>
+
 </body>
 </html>

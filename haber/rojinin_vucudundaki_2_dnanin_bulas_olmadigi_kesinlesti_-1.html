@@ -207,19 +207,6 @@
   </script>
 
 <script>
-function sayaciGoster(haberID, elementID) {
-    let key = "haberGoruntulenme_" + haberID; // benzersiz anahtar
-    let sayac = localStorage.getItem(key) || 0;
-    sayac++;
-    localStorage.setItem(key, sayac);
-    document.getElementById(elementID).textContent = sayac;
-}
-
-// Haber ID'leri ile çağır
-
-sayaciGoster(2, "goruntulenme2");
-
-
 
 
 function addComment() {
@@ -244,48 +231,68 @@ function addComment() {
 
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, get, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-    authDomain: "azadhaber1.firebaseapp.com",
-    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-    projectId: "azadhaber1",
-    storageBucket: "azadhaber1.firebasestorage.app",
-    messagingSenderId: "307978936562",
-    appId: "1:307978936562:web:7eb007183210681d6d306b",
-    measurementId: "G-MX88RBRPBR"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
+  authDomain: "azadhaber1.firebaseapp.com",
+  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+  projectId: "azadhaber1",
+  storageBucket: "azadhaber1.firebasestorage.app",
+  messagingSenderId: "307978936562",
+  appId: "1:307978936562:web:7eb007183210681d6d306b",
+  measurementId: "G-MX88RBRPBR"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  const commentRef = ref(db, "comments");
+// ------------------------
+// 1) YORUMLAR
+// ------------------------
+const commentRef = ref(db, "comments/" + window.location.pathname.replace(/\//g, "_"));
 
-  // Yorum gönder
-  window.addComment = function () {
-    const text = document.getElementById("commentInput").value.trim();
+window.addComment = function () {
+  const input = document.getElementById("commentInput");
+  const text = input.value.trim();
 
-    if (text === "") return;
+  if (text === "") {
+    alert("Yorum boş olamaz!");
+    return;
+  }
 
-    push(commentRef, text);
-    document.getElementById("commentInput").value = "";
-  };
+  push(commentRef, text);
+  input.value = "";
+};
 
-  // Yorumları canlı olarak çek
-  onValue(commentRef, (snapshot) => {
-    const list = document.getElementById("commentList");
-    list.innerHTML = "<h3>Yorumlar</h3>";
+// Yorumları canlı olarak çek
+onValue(commentRef, (snapshot) => {
+  const list = document.getElementById("commentList");
+  list.innerHTML = "<h3>Yorumlar</h3>";
 
-    snapshot.forEach((child) => {
-      const div = document.createElement("div");
-      div.className = "single-comment";
-      div.innerHTML = `<p>${child.val()}</p>`;
-      list.appendChild(div);
-    });
+  snapshot.forEach((child) => {
+    const div = document.createElement("div");
+    div.className = "single-comment";
+    div.innerHTML = `<p>${child.val()}</p>`;
+    list.appendChild(div);
   });
+});
+
+// ------------------------
+// 2) SAYFA GÖRÜNTÜLEME SAYACI
+// ------------------------
+const pageKey = window.location.pathname.replace(/\//g, "_");
+const viewRef = ref(db, "views/" + pageKey);
+
+get(viewRef).then(snapshot => {
+  let count = snapshot.exists() ? snapshot.val() : 0;
+  count++;
+  set(viewRef, count);
+  document.getElementById("goruntulenme2").textContent = count;
+});
 </script>
+
 
 
 </body>

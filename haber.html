@@ -13,7 +13,7 @@
     <!-- Üst Menü -->
     <header class="ust-bar">
         <div class="logo">
-<img src="img/logo.png" alt="Logo">
+            <img src="img/logo.png" alt="Logo">
         </div>
         <nav class="menu">
             <ul>
@@ -32,73 +32,37 @@
 
     <!-- İçerik -->
     <main class="icerik">
-        <!-- GÜNCEL -->
+        <!-- Haber Kategorileri -->
         <section class="haber-kategori" id="guncel">
             <h2>🕓 Güncel</h2>
-            <div class="haber-grid">
-                <article class="haber">
-                    <img src="img/haber3.jpg" alt="Haber Görseli">
-                    <h3>Rojin'in Vücudundaki 2 DNA'nın Bulaş Olmadığı Kesinleşti</h3>
-                    <p>Diyarbakır’da adli tıp incelemesi sonucunda Rojin’in vücudundaki DNA örneklerinin bulaş olmadığı kesinleşti...</p>
-                    <a href="haber/rojinin_vucudundaki_2_dnanin_bulas_olmadigi_kesinlesti_-1.html">Haberi Oku</a>
-                </article>
-                <article class="haber">
-                    <img src="img/haber1.jpg" alt="Haber Görseli">
-                    <h3>DEM Parti'den dikkat çeken "Selçuk Mızraklı" açıklaması</h3>
-                    <p>DEM Parti, 2019'dan bu yana tutuklu bulunan eski Diyarbakır Büyükşehir Belediye Eşbaşkanı Adnan Selçuk Mızraklı ile ilgili açıklama yaptı. Açıklamada, "Mızraklı'nın denetimli serbestliğin uygulanarak tahliye olma talebi, Cezaevi İdare ve Gözlem Kurulu tarafından, 'Kurumumuzda bulunduğu süre içerisinde terör örgütünden ayrıldığına dair bir beyanı bulunmadı' denilerek reddedildi." ifadelerine yer verildi.</p>
-                    <a href="haber/diyarbakir_son_gelismeler.html">Haberi Oku</a>
-                </article>
-            </div>
+            <div class="haber-grid" id="guncelList"></div>
         </section>
 
-        <!-- POLİTİKA -->
         <section class="haber-kategori" id="politika">
             <h2>🏛️ Politika</h2>
-            <div class="haber-grid">
-                <article class="haber">
-                    <img src="img/politika1.jpg" alt="Politika Haberi">
-                    <h3>Yeni Anayasa Görüşmeleri Başladı</h3>
-                    <p>Meclis’te uzun süredir beklenen yeni anayasa görüşmeleri komisyon aşamasına geçti.</p>
-                    <a href="#">Haberi Oku</a>
-                </article>
-            </div>
+            <div class="haber-grid" id="politikaList"></div>
         </section>
 
-        <!-- EKONOMİ -->
         <section class="haber-kategori" id="ekonomi">
             <h2>💰 Ekonomi</h2>
-            <div class="haber-grid">
-                <article class="haber">
-                    <img src="img/haber2.jpg" alt="Ekonomi Haberi">
-                    <h3>Yeni Teşvik Paketi Açıklandı</h3>
-                    <p>Ekonomi Bakanlığı tarafından açıklanan yeni teşvik paketi bölge ekonomisine ivme kazandıracak.</p>
-                    <a href="#">Haberi Oku</a>
-                </article>
-            </div>
+            <div class="haber-grid" id="ekonomiList"></div>
         </section>
 
-        <!-- SPOR -->
         <section class="haber-kategori" id="spor">
             <h2>⚽ Spor</h2>
-            <div class="haber-grid">
-                <article class="haber">
-                    <img src="img/haber4.jpg" alt="Spor Haberi">
-                    <h3>Diyarbakırspor Sezona Galibiyetle Başladı</h3>
-                    <p>Diyarbakırspor sezonun ilk maçında rakibini 3-1 mağlup etti, taraftarlar büyük sevinç yaşadı.</p>
-                    <a href="#">Haberi Oku</a>
-                </article>
-            </div>
+            <div class="haber-grid" id="sporList"></div>
         </section>
     </main>
 
     <!-- Alt Bilgi -->
     <footer class="alt-bilgi">
         <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
-    <p><a href="hakkımızda.html">Hakkımızda</a></p>
+        <p><a href="hakkımızda.html">Hakkımızda</a></p>
     </footer>
 
-    <!-- JS: Son Dakika + Koruma -->
-    <script>
+    <!-- JS: Son Dakika ve Firebase -->
+    <script type="module">
+        // Son Dakika Barı
         const haberler = [
             "Diyarbakır’da kültürel etkinlikler artıyor...",
             "Ekonomi: Yeni teşvik paketi açıklandı.",
@@ -106,19 +70,65 @@
             "Diyarbakırspor galibiyetle sezona başladı!",
             "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
         ];
-
         let index = 0;
         const yaziAlani = document.getElementById("son-dakika-yazi");
-
         setInterval(() => {
             index = (index + 1) % haberler.length;
             yaziAlani.textContent = haberler[index];
         }, 10000);
 
-    </script>
+        // Firebase Başlat
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
+            authDomain: "azadhaber1.firebaseapp.com",
+            databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+            projectId: "azadhaber1",
+            storageBucket: "azadhaber1.appspot.com",
+            messagingSenderId: "307978936562",
+            appId: "1:307978936562:web:7eb007183210681d306b",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const kategoriMap = {
+            "Güncel": "guncelList",
+            "Politika": "politikaList",
+            "Ekonomi": "ekonomiList",
+            "Spor": "sporList"
+        };
+
+        const haberRef = ref(db, "haberler");
+        onValue(haberRef, snapshot => {
+            const haberler = [];
+            snapshot.forEach(child => {
+                const h = child.val();
+                haberler.push(h);
+            });
+            // Zaman sırasına göre (son eklenen üstte)
+            haberler.sort((a,b) => b.timestamp - a.timestamp);
+
+            // Önce tüm listeleri temizle
+            Object.values(kategoriMap).forEach(id => document.getElementById(id).innerHTML = "");
+
+            haberler.forEach(h => {
+                // Varsayılan kategori "Güncel" yoksa kullan
+                const cat = h.category || "Güncel";
+                const container = document.getElementById(kategoriMap[cat] || "guncelList");
+                const div = document.createElement("article");
+                div.className = "haber";
+                div.innerHTML = `
+                    <img src="${h.image}" alt="${h.title}">
+                    <h3>${h.title}</h3>
+                    <p>${h.content}</p>
+                    <a href="#">Haberi Oku</a>
+                `;
+                container.appendChild(div);
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-

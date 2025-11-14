@@ -4,21 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Azad Haber | Admin Paneli</title>
+<link rel="stylesheet" href="style.css">
 <style>
-body { font-family: Arial; background:#f4f4f4; padding:20px; }
-.container { max-width:600px; margin:auto; background:white; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-input, textarea, button { width:100%; padding:10px; margin:5px 0; }
+body { font-family: Arial, sans-serif; background: #f4f4f4; }
+.admin-container { max-width: 900px; margin: 30px auto; }
+input, textarea, button { width:100%; padding:10px; margin-bottom:10px; }
 button { background:#e63946; color:white; border:none; cursor:pointer; }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="admin-container">
 <h2>Yeni Haber Ekle</h2>
 <input type="text" id="newsTitle" placeholder="Haber Başlığı">
 <textarea id="newsContent" placeholder="Haber İçeriği"></textarea>
 <input type="text" id="newsImage" placeholder="Resim URL'si">
-<button id="addNewsBtn">Haber Ekle</button>
-<div id="status" style="color:green; margin-top:10px;"></div>
+<select id="newsCategory">
+    <option value="guncel">Güncel</option>
+    <option value="politika">Politika</option>
+    <option value="ekonomi">Ekonomi</option>
+    <option value="spor">Spor</option>
+</select>
+<button id="addNewsBtn">Haberi Kaydet</button>
+<div id="newsStatus" style="color:green;"></div>
 </div>
 
 <script type="module">
@@ -26,35 +33,36 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebas
 import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-    authDomain: "azadhaber1.firebaseapp.com",
-    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-    projectId: "azadhaber1",
-    storageBucket: "azadhaber1.appspot.com",
-    messagingSenderId: "307978936562",
-    appId: "1:307978936562:web:7eb007183210681d306b",
+  apiKey: "API_KEYİNİZ",
+  authDomain: "azadhaber1.firebaseapp.com",
+  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+  projectId: "azadhaber1",
+  storageBucket: "azadhaber1.appspot.com",
+  messagingSenderId: "307978936562",
+  appId: "1:307978936562:web:7eb007183210681d306b"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const titleInput = document.getElementById("newsTitle");
-const contentInput = document.getElementById("newsContent");
-const imageInput = document.getElementById("newsImage");
-const addBtn = document.getElementById("addNewsBtn");
-const status = document.getElementById("status");
+function slugify(text){
+    return text.toString().toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'').replace(/\-\-+/g,'-').replace(/^-+/,'').replace(/-+$/,'');
+}
 
-addBtn.addEventListener("click", () => {
-    const title = titleInput.value.trim();
-    const content = contentInput.value.trim();
-    const image = imageInput.value.trim();
-    if (!title || !content || !image) { alert("Tüm alanları doldur!"); return; }
-
-    const newsRef = ref(db, "haberler");
-    push(newsRef, { title, content, image, timestamp: Date.now() });
-
-    status.textContent = "Haber başarıyla eklendi!";
-    titleInput.value = ""; contentInput.value = ""; imageInput.value = "";
+const addNewsBtn = document.getElementById("addNewsBtn");
+addNewsBtn.addEventListener("click", ()=>{
+    const title = document.getElementById("newsTitle").value.trim();
+    const content = document.getElementById("newsContent").value.trim();
+    const image = document.getElementById("newsImage").value.trim();
+    const category = document.getElementById("newsCategory").value;
+    if(!title || !content || !image) { alert("Tüm alanlar doldurulmalıdır!"); return; }
+    const slug = slugify(title);
+    const newsRef = ref(db, "haberler/" + category);
+    push(newsRef, { title, content, image, slug });
+    document.getElementById("newsStatus").textContent = "Haber başarıyla eklendi!";
+    document.getElementById("newsTitle").value = "";
+    document.getElementById("newsContent").value = "";
+    document.getElementById("newsImage").value = "";
 });
 </script>
 </body>

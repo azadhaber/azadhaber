@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rojin’in Vücudundaki 2 DNA’nın Bulaş Olmadığı Kesinleşti – Azad Haber</title>
-    <link rel="icon" type="img/png" href="../img/favicon.png">
+  <link rel="icon" type="img/png" href="../img/favicon.png">
   <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
   <link rel="stylesheet" href="../style.css">
   <style>
@@ -18,48 +18,48 @@
     }
 
     /* Üst Menü */
-.ust-bar {
-    background-color: #2d2d2d;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
+    .ust-bar {
+      background-color: #2d2d2d;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
     }
 
-.logo h1 {
-    margin: 0;
-    font-size: 28px;
-    color: #e63946;
+    .logo h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #e63946;
     }
 
-.logo p {
-    font-size: 12px;
-    margin: 0;
-    color: #ccc;
+    .logo p {
+      font-size: 12px;
+      margin: 0;
+      color: #ccc;
     }
 
-.menu a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
+    .menu a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
     }
 
-.menu a.aktif {
-    color: #e63946;
+    .menu a.aktif {
+      color: #e63946;
     }
 
     /* Son Dakika Bar */
-.son-dakika {
-    background-color: #e63946;
-    color: white;
-    padding: 8px 20px;
-    font-weight: bold;
+    .son-dakika {
+      background-color: #e63946;
+      color: white;
+      padding: 8px 20px;
+      font-weight: bold;
     }
 
-.son-dakika .etiket {
-    margin-right: 8px;
+    .son-dakika .etiket {
+      margin-right: 8px;
     }
 
     /* Haber Detay */
@@ -105,6 +105,49 @@
       margin-bottom: 20px;
     }
 
+    /* Comment Box */
+    .comment-box {
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .comment-box textarea {
+      width: 100%;
+      min-height: 80px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .comment-box button {
+      padding: 8px 15px;
+      background-color: #e63946;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .comment-list {
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .single-comment {
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+
     /* Footer */
     .alt-bilgi {
       background-color: #333;
@@ -132,22 +175,22 @@
   <!-- Üst Menü -->
   <header class="ust-bar">
     <div class="logo">
-<img src="../img/logo.png" alt="Logo">
+      <img src="../img/logo.png" alt="Logo">
     </div>
     <nav class="menu">
-      <ul></ul>
-      <li><a href="../index.html">Ana Sayfa</a></li>
-      <li><a href="../haber.html" class="aktif">Haberler</a></li>
-      <li><a href="../iletisim.html">İletişim</a></li>
+      <ul>
+        <li><a href="../index.html">Ana Sayfa</a></li>
+        <li><a href="../haber.html" class="aktif">Haberler</a></li>
+        <li><a href="../iletisim.html">İletişim</a></li>
       </ul>
     </nav>
   </header>
 
-    <!-- Son Dakika Barı -->
-    <div class="son-dakika">
-        <span class="etiket">SON DAKİKA:</span>
-        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
-    </div>
+  <!-- Son Dakika Barı -->
+  <div class="son-dakika">
+    <span class="etiket">SON DAKİKA:</span>
+    <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
+  </div>
 
   <!-- Haber İçeriği -->
   <main class="icerik">
@@ -168,23 +211,22 @@
     </article>
   </main>
 
-<div class="comment-box">
-  <h3>Yorum Yap</h3>
-  <textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
-  <button onclick="addComment()">Gönder</button>
-</div>
+  <!-- Yorum Kutusu -->
+  <div class="comment-box">
+    <h3>Yorum Yap</h3>
+    <textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
+    <button onclick="addComment()">Gönder</button>
+  </div>
 
-<div class="comment-list" id="commentList">
-  <h3>Yorumlar</h3>
-</div>
-
-
-
+  <!-- Yorum Listesi -->
+  <div class="comment-list" id="commentList">
+    <h3>Yorumlar</h3>
+  </div>
 
   <!-- Footer -->
   <footer class="alt-bilgi">
     <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
-      <p><a href="../hakkımızda.html" >Hakkımızda</a></p>
+    <p><a href="../hakkımızda.html">Hakkımızda</a></p>
   </footer>
 
   <!-- Son Dakika JS -->
@@ -206,98 +248,69 @@
     }, 10000);
   </script>
 
-<script>
+  <!-- Firebase Yorum ve Görüntüleme Sayacı -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, get, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
+      authDomain: "azadhaber1.firebaseapp.com",
+      databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+      projectId: "azadhaber1",
+      storageBucket: "azadhaber1.firebasestorage.app",
+      messagingSenderId: "307978936562",
+      appId: "1:307978936562:web:7eb007183210681d6d306b",
+      measurementId: "G-MX88RBRPBR"
+    };
 
-function addComment() {
-  const input = document.getElementById("commentInput");
-  const text = input.value.trim();
-}
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-  if (text === "") {
-    alert("Yorum boş olamaz!");
-    return;
-  }
+    // ------------------------
+    // 1) YORUMLAR
+    // ------------------------
+    const commentRef = ref(db, "comments/" + window.location.pathname.replace(/\//g, "_"));
 
-  // Yorum kutusu
-  const commentList = document.getElementById("commentList");
-  const div = document.createElement("div");
-  div.className = "single-comment";
-  div.innerHTML = `<p>${text}</p>`;
-  commentList.appendChild(div);
+    window.addComment = function () {
+      const input = document.getElementById("commentInput");
+      const text = input.value.trim();
 
+      if (text === "") {
+        alert("Yorum boş olamaz!");
+        return;
+      }
 
-</script>
+      push(commentRef, text);
+      input.value = "";
+    };
 
+    // Yorumları canlı olarak çek
+    onValue(commentRef, (snapshot) => {
+      const list = document.getElementById("commentList");
+      list.innerHTML = "<h3>Yorumlar</h3>";
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, get, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+      snapshot.forEach((child) => {
+        const div = document.createElement("div");
+        div.className = "single-comment";
+        div.innerHTML = `<p>${child.val()}</p>`;
+        list.appendChild(div);
+      });
+    });
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-  authDomain: "azadhaber1.firebaseapp.com",
-  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-  projectId: "azadhaber1",
-  storageBucket: "azadhaber1.firebasestorage.app",
-  messagingSenderId: "307978936562",
-  appId: "1:307978936562:web:7eb007183210681d6d306b",
-  measurementId: "G-MX88RBRPBR"
-};
+    // ------------------------
+    // 2) SAYFA GÖRÜNTÜLEME SAYACI
+    // ------------------------
+    const pageKey = window.location.pathname.replace(/\//g, "_");
+    const viewRef = ref(db, "views/" + pageKey);
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-// ------------------------
-// 1) YORUMLAR
-// ------------------------
-const commentRef = ref(db, "comments/" + window.location.pathname.replace(/\//g, "_"));
-
-window.addComment = function () {
-  const input = document.getElementById("commentInput");
-  const text = input.value.trim();
-
-  if (text === "") {
-    alert("Yorum boş olamaz!");
-    return;
-  }
-
-  push(commentRef, text);
-  input.value = "";
-};
-
-// Yorumları canlı olarak çek
-onValue(commentRef, (snapshot) => {
-  const list = document.getElementById("commentList");
-  list.innerHTML = "<h3>Yorumlar</h3>";
-
-  snapshot.forEach((child) => {
-    const div = document.createElement("div");
-    div.className = "single-comment";
-    div.innerHTML = `<p>${child.val()}</p>`;
-    list.appendChild(div);
-  });
-});
-
-// ------------------------
-// 2) SAYFA GÖRÜNTÜLEME SAYACI
-// ------------------------
-const pageKey = window.location.pathname.replace(/\//g, "_");
-const viewRef = ref(db, "views/" + pageKey);
-
-get(viewRef).then(snapshot => {
-  let count = snapshot.exists() ? snapshot.val() : 0;
-  count++;
-  set(viewRef, count);
-  document.getElementById("goruntulenme2").textContent = count;
-});
-</script>
-
-
+    get(viewRef).then(snapshot => {
+      let count = snapshot.exists() ? snapshot.val() : 0;
+      count++;
+      set(viewRef, count);
+      document.getElementById("goruntulenme2").textContent = count;
+    });
+  </script>
 
 </body>
 </html>
-
-
-
-

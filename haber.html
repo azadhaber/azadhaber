@@ -1,137 +1,58 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azad Haber | Güncel, Politika, Spor ve Daha Fazlası</title>
-    <link rel="icon" type="img/png" href="img/favicon.png">
-    <meta name="description" content="Azad Haber, Diyarbakır ve Türkiye'den son dakika haberler. Güncel olaylar, ekonomi, spor ve kültür haberleri.">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<section class="haber-kategori" id="guncel">
+    <h2>🕓 Güncel</h2>
+    <div class="haber-grid" id="guncelHaberler"></div>
+</section>
 
-    <!-- Üst Menü -->
-    <header class="ust-bar">
-        <div class="logo">
-            <img src="img/logo.png" alt="Logo">
-        </div>
-        <nav class="menu">
-            <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="haber.html" class="aktif">Haberler</a></li>
-            <li><a href="iletisim.html">İletişim</a></li>
-            </ul>
-        </nav>
-    </header>
+<section class="haber-kategori" id="politika">
+    <h2>🏛️ Politika</h2>
+    <div class="haber-grid" id="politikaHaberler"></div>
+</section>
 
-    <!-- SON DAKİKA BAR -->
-    <div class="son-dakika">
-        <span class="etiket">SON DAKİKA:</span>
-        <span id="son-dakika-yazi">Diyarbakır’da kültürel etkinlikler artıyor...</span>
-    </div>
+<section class="haber-kategori" id="ekonomi">
+    <h2>💰 Ekonomi</h2>
+    <div class="haber-grid" id="ekonomiHaberler"></div>
+</section>
 
-    <a href="haber/haber_detay.html?slug=${h.slug}">Haberi Oku</a>
+<section class="haber-kategori" id="spor">
+    <h2>⚽ Spor</h2>
+    <div class="haber-grid" id="sporHaberler"></div>
+</section>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-    <!-- İçerik -->
-    <main class="icerik">
-        <!-- Haber Kategorileri -->
-        <section class="haber-kategori" id="guncel">
-            <h2>🕓 Güncel</h2>
-            <div class="haber-grid" id="guncelList"></div>
-        </section>
+const firebaseConfig = {
+  apiKey: "API_KEYİNİZ",
+  authDomain: "azadhaber1.firebaseapp.com",
+  databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+  projectId: "azadhaber1",
+  storageBucket: "azadhaber1.appspot.com",
+  messagingSenderId: "307978936562",
+  appId: "1:307978936562:web:7eb007183210681d306b"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-        <section class="haber-kategori" id="politika">
-            <h2>🏛️ Politika</h2>
-            <div class="haber-grid" id="politikaList"></div>
-        </section>
+const kategoriler = ["guncel","politika","ekonomi","spor"];
 
-        <section class="haber-kategori" id="ekonomi">
-            <h2>💰 Ekonomi</h2>
-            <div class="haber-grid" id="ekonomiList"></div>
-        </section>
-
-        <section class="haber-kategori" id="spor">
-            <h2>⚽ Spor</h2>
-            <div class="haber-grid" id="sporList"></div>
-        </section>
-    </main>
-
-    <!-- Alt Bilgi -->
-    <footer class="alt-bilgi">
-        <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
-        <p><a href="hakkımızda.html">Hakkımızda</a></p>
-    </footer>
-
-    <!-- JS: Son Dakika ve Firebase -->
-    <script type="module">
-        // Son Dakika Barı
-        const haberler = [
-            "Diyarbakır’da kültürel etkinlikler artıyor...",
-            "Ekonomi: Yeni teşvik paketi açıklandı.",
-            "Meteoroloji: Güneydoğu’da yağış bekleniyor.",
-            "Diyarbakırspor galibiyetle sezona başladı!",
-            "Sur ilçesinde tarihi restorasyon çalışmaları hızlandı."
-        ];
-        let index = 0;
-        const yaziAlani = document.getElementById("son-dakika-yazi");
-        setInterval(() => {
-            index = (index + 1) % haberler.length;
-            yaziAlani.textContent = haberler[index];
-        }, 10000);
-
-        // Firebase Başlat
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
-            authDomain: "azadhaber1.firebaseapp.com",
-            databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
-            projectId: "azadhaber1",
-            storageBucket: "azadhaber1.appspot.com",
-            messagingSenderId: "307978936562",
-            appId: "1:307978936562:web:7eb007183210681d306b",
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        const kategoriMap = {
-            "Güncel": "guncelList",
-            "Politika": "politikaList",
-            "Ekonomi": "ekonomiList",
-            "Spor": "sporList"
-        };
-
-        const haberRef = ref(db, "haberler");
-        onValue(haberRef, snapshot => {
-            const haberler = [];
-            snapshot.forEach(child => {
-                const h = child.val();
-                haberler.push(h);
-            });
-            // Zaman sırasına göre (son eklenen üstte)
-            haberler.sort((a,b) => b.timestamp - a.timestamp);
-
-            // Önce tüm listeleri temizle
-            Object.values(kategoriMap).forEach(id => document.getElementById(id).innerHTML = "");
-
-            haberler.forEach(h => {
-                // Varsayılan kategori "Güncel" yoksa kullan
-                const cat = h.category || "Güncel";
-                const container = document.getElementById(kategoriMap[cat] || "guncelList");
-                const div = document.createElement("article");
-                div.className = "haber";
-                div.innerHTML = `
-                    <img src="${h.image}" alt="${h.title}">
-                    <h3>${h.title}</h3>
-                    <p>${h.content}</p>
-                    <a href="#">Haberi Oku</a>
-                `;
-                container.appendChild(div);
-            });
+kategoriler.forEach(cat=>{
+    const container = document.getElementById(cat + "Haberler");
+    const newsRef = ref(db,"haberler/"+cat);
+    onValue(newsRef, snapshot=>{
+        container.innerHTML = "";
+        snapshot.forEach(child=>{
+            const h = child.val();
+            const article = document.createElement("article");
+            article.className = "haber";
+            article.innerHTML = `
+                <img src="${h.image}" alt="Haber Görseli">
+                <h3>${h.title}</h3>
+                <p>${h.content.substring(0,100)}...</p>
+                <a href="haber/haber_detay.html?slug=${h.slug}">Haberi Oku</a>
+            `;
+            container.appendChild(article);
         });
-    </script>
-</body>
-</html>
+    });
+});
+</script>

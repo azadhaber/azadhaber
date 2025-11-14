@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azad Haber | Haber Detayı</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="ust-bar">
+    <div class="logo"><img src="../img/logo.png" alt="Logo"></div>
+    <nav class="menu">
+        <ul>
+            <li><a href="../index.html">Ana Sayfa</a></li>
+            <li><a href="../haber.html" class="aktif">Haberler</a></li>
+            <li><a href="../iletisim.html">İletişim</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="icerik">
+    <section class="haber-detay">
+        <h1 id="haberBaslik">Yükleniyor...</h1>
+        <img id="haberGorsel" src="" alt="">
+        <p id="haberIcerik"></p>
+    </section>
+</main>
+
+<footer class="alt-bilgi">
+    <p>© 2025 Azad Haber | Tüm Hakları Saklıdır</p>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBK6_U6iG0AXgVb3NbNSXhf_2S3fWw9wsc",
+    authDomain: "azadhaber1.firebaseapp.com",
+    databaseURL: "https://azadhaber1-default-rtdb.firebaseio.com",
+    projectId: "azadhaber1",
+    storageBucket: "azadhaber1.firebasestorage.app",
+    messagingSenderId: "307978936562",
+    appId: "1:307978936562:web:7eb007183210681d306b",
+    measurementId: "G-MX88RBRPBR"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// URL'den slug parametresini al
+const params = new URLSearchParams(window.location.search);
+const slug = params.get("slug");
+
+if(!slug){
+    document.getElementById("haberBaslik").textContent = "Haber bulunamadı!";
+} else {
+    const newsRef = ref(db, "haberler");
+    onValue(newsRef, snapshot => {
+        let found = false;
+        snapshot.forEach(child => {
+            const h = child.val();
+            if(h.slug === slug){
+                found = true;
+                document.getElementById("haberBaslik").textContent = h.title;
+                document.getElementById("haberGorsel").src = h.image;
+                document.getElementById("haberGorsel").alt = h.title;
+                document.getElementById("haberIcerik").textContent = h.content;
+            }
+        });
+        if(!found){
+            document.getElementById("haberBaslik").textContent = "Haber bulunamadı!";
+        }
+    });
+}
+</script>
+
+</body>
+</html>

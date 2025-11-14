@@ -168,8 +168,16 @@
     </article>
   </main>
 
-  <textarea placeholder="Yorum yaz..."></textarea>
-<button>Gönder</button>
+<div class="comment-box">
+  <h3>Yorum Yap</h3>
+  <textarea id="commentInput" placeholder="Yorum yaz..."></textarea>
+  <button onclick="addComment()">Gönder</button>
+</div>
+
+<div class="comment-list" id="commentList">
+  <h3>Yorumlar</h3>
+</div>
+
 
 
   <!-- Footer -->

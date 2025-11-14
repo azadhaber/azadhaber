@@ -14,9 +14,9 @@ body { font-family: Arial; margin:0; background:#f8f8f8; color:#333;}
 .icerik{max-width:900px;margin:20px auto;padding:15px;background:white;box-shadow:0 0 5px rgba(0,0,0,0.1);}
 .haber-gorsel{width:100%;border-radius:5px;margin:15px 0;}
 .geri{display:inline-block;padding:8px 15px;background:#e60000;color:white;text-decoration:none;border-radius:3px;margin-bottom:20px;}
-.comment-box, .comment-list, .admin-login{max-width:900px;margin:20px auto;padding:15px;background:white;box-shadow:0 0 5px rgba(0,0,0,0.1);border-radius:5px;}
-.comment-box input, .comment-box textarea, .admin-login input{width:100%;padding:10px;border-radius:3px;border:1px solid #ccc;margin-bottom:10px;}
-.comment-box button, .admin-login button{padding:8px 15px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
+.comment-box, .comment-list{max-width:900px;margin:20px auto;padding:15px;background:white;box-shadow:0 0 5px rgba(0,0,0,0.1);border-radius:5px;}
+.comment-box input, .comment-box textarea{width:100%;padding:10px;border-radius:3px;border:1px solid #ccc;margin-bottom:10px;}
+.comment-box button{padding:8px 15px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
 .single-comment{border-bottom:1px solid #eee;padding:8px 0;}
 .single-comment button{margin-left:10px;padding:3px 6px;background:#e63946;color:white;border:none;border-radius:3px;cursor:pointer;}
 .alt-bilgi{background:#333;color:white;text-align:center;padding:15px 0;margin-top:20px;}
@@ -46,14 +46,6 @@ body { font-family: Arial; margin:0; background:#f8f8f8; color:#333;}
 <a href="../index.html" class="geri">← Ana Sayfaya Dön</a>
 </article>
 </main>
-
-<div class="admin-login">
-  <h3>Admin Girişi</h3>
-  <input type="text" id="adminUsername" placeholder="Kullanıcı Adı" />
-  <input type="password" id="adminPassword" placeholder="Şifre" />
-  <button id="adminLoginBtn">Giriş Yap</button>
-  <p id="adminStatus" style="color:red;"></p>
-</div>
 
 <div class="comment-box">
   <h3>Yorum Yap</h3>
@@ -102,9 +94,12 @@ measurementId: "G-MX88RBRPBR"
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// Sayfa için unique key
 const pageKey = "haber2"; 
 
-// Görüntüleme sayacı
+// ------------------
+// 1) Görüntüleme sayacı
+// ------------------
 const viewRef = ref(db, "views/" + pageKey);
 get(viewRef).then(snapshot=>{
   let count = snapshot.exists() ? snapshot.val() : 0;
@@ -113,16 +108,19 @@ get(viewRef).then(snapshot=>{
   document.getElementById("goruntulenme2").textContent=count;
 });
 
-// Kullanıcı ID
+// ------------------
+// 2) Yorumlar ve kullanıcı
+// ------------------
+
+// Kullanıcı ID oluştur
 let userID = localStorage.getItem("userID");
 if(!userID){
   userID = "user_" + Date.now();
   localStorage.setItem("userID", userID);
 }
 
-// Admin kontrolü
-let isAdmin = localStorage.getItem("isAdmin") === "true";
-const adminCredentials = { username:"azad", password:"AzadTaylan23" };
+// Yönetici kontrolü (örnek: adminID)
+const adminID = "azadtaylan"; // bunu değiştir, yönetici için sabit ID
 
 const commentRef = ref(db, "comments/" + pageKey);
 const commentList = document.getElementById("commentList");
@@ -135,61 +133,39 @@ commentBtn.addEventListener("click", ()=>{
   const name = commentName.value.trim();
   const text = commentInput.value.trim();
   if(name === "" || text === ""){ alert("Adınız ve yorumunuz boş olamaz!"); return; }
+
   push(commentRef, { name: name, text: text, userID: userID });
   commentInput.value = "";
   commentName.value = "";
 });
 
-// Admin giriş
-const adminLoginBtn = document.getElementById("adminLoginBtn");
-const adminUsernameInput = document.getElementById("adminUsername");
-const adminPasswordInput = document.getElementById("adminPassword");
-const adminStatus = document.getElementById("adminStatus");
+// Yorumları çek ve listele
+onValue(commentRef, snapshot=>{
+  commentList.innerHTML="<h3>Yorumlar</h3>";
+  snapshot.forEach(child=>{
+    const comment = child.val();
+    const div = document.createElement("div");
+    div.className="single-comment";
 
-adminLoginBtn.addEventListener("click", ()=>{
-  const username = adminUsernameInput.value.trim();
-  const password = adminPasswordInput.value.trim();
-  if(username === adminCredentials.username && password === adminCredentials.password){
-    isAdmin = true;
-    localStorage.setItem("isAdmin","true");
-    adminStatus.style.color="green";
-    adminStatus.textContent = "Admin olarak giriş yapıldı!";
-    renderComments();
-  } else {
-    adminStatus.style.color="red";
-    adminStatus.textContent = "Hatalı kullanıcı adı veya şifre!";
-  }
+    // Sil butonu: yalnızca yorum sahibi veya admin görebilir
+    let silBtn = "";
+    if(comment.userID === userID || userID === adminID){
+      silBtn = `<button onclick="deleteComment('${child.key}')">Sil</button>`;
+    }
+
+    div.innerHTML = `<p><strong>${comment.name}:</strong> ${comment.text}</p>${silBtn}`;
+    commentList.appendChild(div);
+  });
 });
 
-// Yorumları listeleme
-function renderComments(snapshotData){
-  onValue(commentRef, snapshot=>{
-    commentList.innerHTML="<h3>Yorumlar</h3>";
-    snapshot.forEach(child=>{
-      const comment = child.val();
-      const div = document.createElement("div");
-      div.className = "single-comment";
-      let silBtn = "";
-      if(comment.userID === userID || isAdmin){
-        silBtn = `<button onclick="deleteComment('${child.key}')">Sil</button>`;
-      }
-      div.innerHTML = `<p><strong>${comment.name}:</strong> ${comment.text}</p>${silBtn}`;
-      commentList.appendChild(div);
-    });
-  });
-}
-
-// Yorum silme
+// Yorum silme fonksiyonu
 window.deleteComment = function(key){
   if(confirm("Bu yorumu silmek istediğinize emin misiniz?")){
     const commentRefToDelete = ref(db, "comments/" + pageKey + "/" + key);
     set(commentRefToDelete, null);
   }
-}
-
-// İlk render
-renderComments();
-
+};
 </script>
+
 </body>
 </html>
